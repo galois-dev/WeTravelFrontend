@@ -1,0 +1,227 @@
+$border-radius-big: 4rem;
+$border-radius-m: 2rem;
+$border-radius-s: 1.2rem;
+$border-radius-xs: 0.7rem;
+$width-nav-hidden: 24px;
+
+// max content width applies to a piece of content not the window itself.
+$max-content-width: 720px;
+
+// Responsive breakpoints
+$tablet-width: 768px;
+$desktop-width: 1024px;
+@mixin phone {
+  @media (min-width: #{0px}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+// Set your colors
+$primary: #db8653;
+$primary-invert: findColorInvert($primary);
+$twitter: #4099ff;
+$twitter-invert: findColorInvert($twitter);
+
+$background-color: #eaeaea;
+$white: #ffffff;
+$gray: #8f9aa5;
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+  "white": (
+    $white,
+    $black,
+  ),
+  "black": (
+    $black,
+    $white,
+  ),
+  "light": (
+    $light,
+    $light-invert,
+  ),
+  "dark": (
+    $dark,
+    $dark-invert,
+  ),
+  "primary": (
+    $primary,
+    $primary-invert,
+  ),
+  "info": (
+    $info,
+    $info-invert,
+  ),
+  "success": (
+    $success,
+    $success-invert,
+  ),
+  "warning": (
+    $warning,
+    $warning-invert,
+  ),
+  "danger": (
+    $danger,
+    $danger-invert,
+  ),
+  "twitter": (
+    $twitter,
+    $twitter-invert,
+  ),
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Unna", serif;
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+html,
+body {
+  h1 {
+    font-weight: 900;
+  }
+}
+
+:root {
+  @include phone {
+    font-size: 16px;
+    font-weight: 300;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      text-align: center;
+    }
+    h1 {
+      font-size: 46px;
+    }
+    h2 {
+      font-size: 38px;
+      font-weight: 500;
+    }
+    h3 {
+      font-size: 32px;
+      font-weight: 500;
+    }
+    h4 {
+      font-size: 26px;
+      font-weight: 400;
+    }
+    h5 {
+      font-size: 24px;
+      font-weight: 300;
+    }
+    h6 {
+      font-weight: 300;
+      font-size: 22px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+
+  @include tablet {
+    font-size: 18px;
+    h1 {
+      font-size: 52px;
+    }
+    h2 {
+      font-size: 46px;
+      font-weight: 500;
+    }
+    h3 {
+      font-size: 38px;
+      font-weight: 500;
+    }
+    h4 {
+      font-size: 34px;
+      font-weight: 400;
+    }
+    h5 {
+      font-size: 22px;
+      font-weight: 300;
+    }
+    h6 {
+      font-size: 18px;
+      font-weight: 300;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+
+  @include desktop {
+    font-size: 16px;
+    h1 {
+      font-size: 64px;
+    }
+    h2 {
+      font-size: 48px;
+      font-weight: 500;
+    }
+    h3 {
+      font-size: 42px;
+      font-weight: 500;
+    }
+    h4 {
+      font-size: 32px;
+      font-weight: 500;
+    }
+    h5 {
+      font-size: 24px;
+      font-weight: 300;
+    }
+    h6 {
+      font-size: 20px;
+      font-weight: 300;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+}
+html,
+body,
+.navbar {
+  background-color: $background-color;
+}
+#app {
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
