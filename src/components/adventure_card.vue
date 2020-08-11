@@ -109,7 +109,11 @@ export default {
       this.flat_travellers = flat_list;
     },
     gotoAdventure() {
-      this.$router.push({ name: "adventure", params: { pk: this.$props.pk } });
+      const props = this.$props;
+      const pk = String(props.pk);
+      this.$router.push({
+        path: `adventure/${pk}`,
+      });
     },
   },
   computed: {

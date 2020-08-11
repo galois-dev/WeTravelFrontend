@@ -15,40 +15,41 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: "/adventure/:pk/",
+    name: "adventure",
+    component: adventure,
+  },
+  {
     path: '/',
     name: 'Home',
-    component: landingPage
+    component: landingPage,
   },
   {
     path: "/profile/",
     name: "profile",
-    component: profile
+    component: profile,
   },
   {
     path: "/inspiration/",
     name: "Inspiration",
-    component: inspiration
+    component: inspiration,
   },
   {
     path: "/settings/",
     name: "settings",
-    component: settings
+    component: settings,
   },
   {
     path: "/travelList/",
     name: "travelList",
-    component: travelList
+    component: travelList,
   },
   {
     path: "/travelDiary/",
     name: "travelDiary",
-    component: travelDiary
+    component: travelDiary,
   },
-  {
-    path: "/adventure/:pk",
-    name: "adventure",
-    compontent: adventure
-  }
+
   // {
   //   path: '/about',
   //   name: 'About',
@@ -66,8 +67,9 @@ const router = new VueRouter({
 
 // Privacy guard
 router.beforeEach(async (to, from, next) => {
-  const Auth = await isAuthenticated().catch(err => {
-  })
+  // const Auth = await isAuthenticated().catch(err => {
+  // })
+  const Auth = true;
   if (to.name !== 'Home' && Auth !== true) { await next({ name: 'Home' }); }
   else { await next(); }
 })

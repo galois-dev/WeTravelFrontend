@@ -17,5 +17,17 @@ export async function getAdventuresByMode(mode) {
         )
         return res
     }
+}
 
+export async function getCalendarSerialsedAdventure(pk) {
+    if (!pk) {
+        throw error("no pk provided")
+    }
+    const res = await axios.get("calendar/", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        pk: pk
+    })
+    return res
 }

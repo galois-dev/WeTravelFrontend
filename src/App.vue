@@ -10,7 +10,9 @@
         enter-active-class="animate__animated animate__backInLeft"
         leave-active-class="animate__animated animate__backOutRight"
       >
-        <router-view />
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </transition>
     </div>
   </div>

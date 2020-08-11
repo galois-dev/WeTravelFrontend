@@ -1,17 +1,18 @@
 <template>
   <div class="adventurelist_root" v-if="adventures_list !== undefined">
-    <!-- <adventure_card
+    <adventure_card
       v-for="adventure in adventures_list"
       :key="adventure.pk"
       :location="adventure.location"
       :title="adventure.title"
       :tags="adventure.tags"
-      :pk="adventure.pk"
+      :banner="adventure.banner"
+      :pk="String(adventure.pk)"
       :travellers="adventure.travellers"
       :creator="adventure.creator"
       :travel_start="adventure.start"
       :travel_end="adventure.end"
-    /> -->
+    />
 
     <adventure_card
       :title="'mock card'"
@@ -70,9 +71,22 @@ export default {
   },
   methods: {
     update_self() {
-      let res = getAdventuresByMode(this.$props.mode).then((data) => {
-        this.adventures_list = data.data.adventures;
-      });
+      let res = getAdventuresByMode(this.$props.mode)
+        .then((data) => {
+          if (!(!data && !data.data)) {
+            this.$buefy.toast.open({
+              message:
+                "error code: 500 - Server unavaliable to send data for adventures.",
+              type: "is-danger",
+              position: "is-top",
+            });
+          } else {
+            this.adventures_list = data.data.adventures;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
   },
   mounted() {
