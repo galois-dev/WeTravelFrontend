@@ -4,6 +4,8 @@ $border-radius-s: 1.2rem;
 $border-radius-xs: 0.7rem;
 $width-nav-hidden: 24px;
 
+$standard_page_margins: 25px 50px 50px 100px;
+
 // max content width applies to a piece of content not the window itself.
 $max-content-width: 720px;
 
@@ -33,10 +35,17 @@ $desktop-width: 1024px;
 
 // Set your colors
 $primary: #db8653;
+$primary2: #bd774d;
+$WT_gray1: #9b9b9b;
+$WT_gray2: #858b97;
+$WT_grayl: #eaeaea;
+$WT_white: #ffffff;
+$WT_background: #fcfcfc;
+$WT_blue: #005062;
+
 $primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
-
 $background-color: #eaeaea;
 $white: #ffffff;
 $gray: #8f9aa5;

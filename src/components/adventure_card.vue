@@ -180,7 +180,7 @@ img {
   width: 100%;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  background: $white;
+  background-color: $WT_grayl;
   display: grid;
   border-radius: $border-radius-m;
   @include desktop {

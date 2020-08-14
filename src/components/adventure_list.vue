@@ -70,7 +70,7 @@ export default {
     };
   },
   methods: {
-    update_self() {
+    update_self(hasRun = false) {
       let res = getAdventuresByMode(this.$props.mode)
         .then((data) => {
           if (!(!data && !data.data)) {
@@ -85,7 +85,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err);
+          this.$store.dispatch("refreshLogin");
+          if (!hasRun) {
+            this.update_self(true);
+          }
         });
     },
   },

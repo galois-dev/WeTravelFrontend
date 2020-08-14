@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!loading"
     class="navigation-bar"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -43,26 +44,17 @@ export default {
       this.$emit("showChanged", bool);
     },
   },
-
+  async mounted() {
+    this.loading = true;
+    await this.buildPathsWithState();
+    this.loading = false;
+  },
   methods: {
     handleSelect(e) {},
-    routerChange(to) {
-      if (this.paths) {
-        this.current_path = -1;
-        for (let i = 0; i < this.paths.length; i++) {
-          const element = this.paths[i];
-          if ("/" + element.path == to) {
-            this.current_path = element.key;
-          }
-        }
-      }
-    },
-  },
-  data() {
-    return {
-      hover: false,
-      current_path: -1,
-      paths: [
+    async buildPathsWithState() {
+      const PROFILE_PATH =
+        "profile/" + (await this.$store.state.UserSettings.pk) + "/";
+      const paths = [
         {
           key: 0,
           path: "travelList",
@@ -79,8 +71,8 @@ export default {
         },
         {
           key: 2,
-          path: "profile",
           text: "Profile",
+          path: PROFILE_PATH,
           icon: "User_white.svg",
           iconSelected: "User_gradient.svg",
         },
@@ -98,7 +90,27 @@ export default {
           icon: "Cogwheel_White.svg",
           iconSelected: "Cogwheel_gradient_Yellow.svg",
         },
-      ],
+      ];
+      this.paths = paths;
+    },
+    routerChange(to) {
+      if (this.paths) {
+        this.current_path = -1;
+        for (let i = 0; i < this.paths.length; i++) {
+          const element = this.paths[i];
+          if ("/" + element.path == to) {
+            this.current_path = element.key;
+          }
+        }
+      }
+    },
+  },
+  data() {
+    return {
+      hover: false,
+      current_path: -1,
+      loading: true,
+      paths: [],
     };
   },
 };
@@ -196,10 +208,10 @@ ul {
   @include phone {
     position: absolute;
     width: $mobile_height;
-    bottom: 0;
+    bottom: 50px;
     left: 0;
     right: 0;
-    height: $mobile_height;
+    height: calc(100vw / 7);
     padding: 0;
   }
 

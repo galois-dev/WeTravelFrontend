@@ -81,37 +81,40 @@ body,
 }
 
 #app {
+  background-color: $WT_background;
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   @include desktop {
     display: grid;
     &.NAVhovered {
       transition: 0.5s;
-      grid-template-columns: auto 5vw 1fr 5vw;
+      grid-template-columns: auto 100vw;
       grid-template-rows: 100vh;
-      grid-template-areas: "nav whitespace app whitespace2";
+      grid-template-areas: "nav app";
     }
     &.NAVnothovered {
       transition: 0.5s;
 
-      grid-template-columns: $width-nav-hidden 5vw 1fr 5vw;
+      grid-template-columns: $width-nav-hidden calc(100vw-$width-nav-hidden);
       grid-template-rows: 100vh;
-      grid-template-areas: "nav whitespace app whitespace2";
+      grid-template-areas: "nav app";
     }
   }
   @include tablet {
     display: grid;
     &.NAVhovered {
       transition: 0.5s;
-      grid-template-columns: auto 20px 1fr 20px;
+      grid-template-columns: auto 1fr;
       grid-template-rows: 100vh;
-      grid-template-areas: "nav whitespace app whitespace2";
+      grid-template-areas: "nav app";
     }
     &.NAVnothovered {
       transition: 0.5s;
 
-      grid-template-columns: $width-nav-hidden 20px 1fr 20px;
+      grid-template-columns: $width-nav-hidden 1fr;
       grid-template-rows: 100vh;
-      grid-template-areas: "nav whitespace app whitespace2";
+      grid-template-areas: "nav app ";
     }
   }
   @include mobile {
@@ -126,9 +129,8 @@ body,
 
 .main-view {
   grid-area: app;
-  overflow-y: auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  overflow: auto;
+  height: 100vh;
   @include mobile {
     padding-left: 0;
   }

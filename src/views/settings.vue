@@ -537,20 +537,26 @@ export default {
       this.gender = args.gender;
       this.birthyear = args.birthyear;
     },
-    getState: function() {
+    getState: async function(hasRun = false) {
       this.loading = true;
-      userService
+      await userService
         .getSettings()
-        .then((res) => {
+        .then(async (res) => {
           this.setState(res);
+          await this.$store.dispatch("pushUserSettings", res);
           this.loading = false;
         })
-        .catch((err) => {
+        .catch(async (err) => {
+          if (!hasRun) {
+            await this.$store.dispatch("refreshLogin");
+            await this.getState(true);
+          }
           console.log(err);
           this.$buefy.toast.open({
             type: "is-danger",
             message: "Settings form failed to load",
           });
+          this.loading = false;
           // this.$router.push({ name: "Home" });
         });
     },

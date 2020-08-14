@@ -10,6 +10,7 @@ import landingPage from "../views/landingPage"
 import adventure from "../views/adventure"
 import exampleScroll from "../views/exampleScroll"
 import store from "../store/index"
+import travel_book_list from "../components/travel_book_list.vue"
 import { isAuthenticated } from '../utils/userService'
 Vue.use(VueRouter)
 
@@ -25,7 +26,7 @@ const routes = [
     component: landingPage,
   },
   {
-    path: "/profile/",
+    path: "/profile/:pk/",
     name: "profile",
     component: profile,
   },

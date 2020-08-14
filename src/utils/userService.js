@@ -62,14 +62,53 @@ export async function getSettings(id = -1) {
         if (!data && !_data) {
 
             console.log("Settings Query rejected");
-            return Promise.reject("Query to api failed")
+            return Promise.reject("Query to /api/settings/ failed")
+        }
+        const res = await axios.get("", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }).catch(err => {
+            return Promise.reject("Query to /api/ failed")
+        })
+        if (res.data) {
+            data.pk = res.data.pk
         }
 
-        return data ? data : _data ? _data : () => { return Promise.reject("No data found") }
+        return data
     } else {
         return {} // return other users settings?!
     }
 
+}
+
+export async function getProfile(id) {
+    const auth = await isAuthenticated()
+    if (!auth) {
+        console.log("Settings Auth rejected");
+        return Promise.reject("Client must be logged in to access this feature")
+    }
+    let _data
+    const { data } = await axios.get("/profile/" + id + "/", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    }).catch(async err => {
+        await store.dispatch("refreshLogin")
+        const { data } = await axios.get("/profile/" + id + "/", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+        return data
+    })
+    if (!data) {
+
+        console.log("Settings Query rejected");
+        return Promise.reject("Query to api failed")
+    }
+
+    return data
 }
 
 export async function logout() {

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>ADVENTURE TEST PAGE</h1>
+  <div class="adventure-root">
+    <h1>{{ adventureTitle }}</h1>
 
     <calendarWeek :events="payload" v-if="!loading" />
   </div>
@@ -20,6 +20,7 @@ export default {
     adventureService
       .getCalendarSerialsedAdventure(this.$route.params.pk)
       .then((data) => {
+        console.log(data);
         //this.payload = data;
       });
     this.loading = false;
@@ -32,6 +33,7 @@ export default {
     let d_p3 = new Date(d).setHours(d.getHours() + 3);
     return {
       loading: true,
+      adventureTitle: "...",
       payload: [
         {
           from: d,
@@ -69,4 +71,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.adventure-root {
+  height: 100%;
+  margin-bottom: 100px;
+}
+</style>

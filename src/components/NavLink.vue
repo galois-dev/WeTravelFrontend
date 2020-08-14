@@ -42,7 +42,12 @@ export default {
   },
   methods: {
     clicked() {
-      this.$router.replace({ name: this.path });
+      // Use path or name routing depending on size of 'path'
+      if (this.path.split("/").length > 1) {
+        this.$router.replace({ path: this.path });
+      } else {
+        this.$router.replace({ name: this.path });
+      }
       this.$emit("selected", this.ordering);
     },
   },

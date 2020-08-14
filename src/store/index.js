@@ -21,12 +21,15 @@ export default new Vuex.Store({
       refresh: localStorage.getItem('refresh') || ''
     },
     UserSettings: {
+      profile_image: "",
       firstname: "",
       lastname: "",
       email: "",
       country: "",
+      language: "",
       gender: "",
       brithyear: -1,
+      pk: "",
       meta: {
         loaded: false
       }
@@ -77,6 +80,18 @@ export default new Vuex.Store({
           // dispatch("refreshLogin")
         }
       }
+    },
+    updateMyUserSettings(state, { birthyear, language, profile_image, email, firstname, lastname, gender, country, pk }) {
+      state.UserSettings.profile_image = profile_image
+      state.UserSettings.firstname = firstname
+      state.UserSettings.lastname = lastname
+      state.UserSettings.email = email
+      state.UserSettings.language = language
+      state.UserSettings.country = country
+      state.UserSettings.gender = gender
+      state.UserSettings.birthyear = birthyear
+      state.UserSettings.pk = pk
+      state.UserSettings.meta.loaded = true
     }
   },
   actions: {
@@ -84,6 +99,28 @@ export default new Vuex.Store({
     async login({ dispatch, commit }, { access, refresh }) {
       commit('loginSuccess', { access, refresh });
       router.push({ path: 'Inspiration' });
+    },
+    async refreshMyUserSettings({ dispatch }) {
+      // query
+      const data = await userSerivce.getSettings()
+      dispatch("pushUserSettings", data)
+    },
+    async pushUserSettings({ dispatch, commit }, data) {
+      const {
+        birthyear,
+        calendar_view,
+        country,
+        email,
+        firstname,
+        gender,
+        language,
+        lastname,
+        profile_image,
+        pk
+      } = data
+
+      commit("updateMyUserSettings", data)
+
     },
 
     // Takes no args, is self driven.

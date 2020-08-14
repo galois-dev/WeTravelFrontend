@@ -13,6 +13,7 @@
         </div>
       </div>
       <div class="CW_Header"></div>
+
       <div
         v-for="day in [
           'monday',
@@ -26,19 +27,35 @@
         :key="String(day)"
         :class="'weekday ' + day"
       >
+        <div class="WeekdayDisplay">
+          <h3>{{ day }}</h3>
+        </div>
         <div
           v-for="i in Array(24).keys()"
           :key="String(i)"
           :class="'hour' + i"
+          @mouseover="setDraggingTargetMe(day + i)"
           :style="weekday_grid_columns(i)"
-        ></div>
+        >
+          <template v-if="isKeyExistant(day + String(i))">
+            <experience_calendarWidget
+              @dragstart="isDraggingEvent = true"
+              v-for="n in hashMap_events[day + String(i)]"
+              :key="n.title"
+            />
+          </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import experience_calendarWidget from "./experience_calendarWidget";
+
 export default {
+  components: { experience_calendarWidget },
+
   props: {
     events: {
       type: Array,
@@ -55,7 +72,10 @@ export default {
       Events: [],
       cleaned_events: [],
       loading: true,
+      hashMap_events: {},
       hashMap_calendarWidths: {},
+      isDraggingEvent: false,
+      dragTarget: "",
     };
   },
   mounted() {
@@ -64,15 +84,24 @@ export default {
     this.loading = false;
   },
   methods: {
+    isKeyExistant(key) {
+      return (
+        this.hashMap_events[key.toLowerCase()] !== undefined &&
+        this.hashMap_events[key.toLowerCase()].length > 0
+      );
+    },
+    setDraggingTargetMe(e) {
+      if (this.isDraggingEvent === true) {
+        this.dragTarget = e;
+      }
+    },
     weekday_grid_columns(n) {
       let d = new Date();
       d.setHours(n);
       if (!this.loading) {
-        console.log(
-          "Calling get_calendar_width_by_dateTime from weekday_grid_columns"
-        );
         let n = this.get_calendar_width_by_dateTime(d);
         return {
+          display: "grid",
           gridTemplateRows: "1fr",
           gridTemplateColumns: "1fr ".repeat(n),
         };
@@ -88,6 +117,26 @@ export default {
           element.from
         );
       }
+      let res_hashmap = {};
+      res_events.forEach((event) => {
+        console.log(event);
+        const d = new Date(event.from);
+        const key =
+          String(d.toLocaleString("default", { weekday: "long" })) +
+          String(d.getHours()).toLowerCase();
+        console.log(Object.keys(res_hashmap).includes(key));
+        if (Object.keys(res_hashmap).includes(key)) {
+          let arr = res_hashmap[key];
+          arr.push(event);
+          res_hashmap[key] = arr;
+          this.$set(this.hashMap_events, key.toLowerCase(), arr);
+        } else {
+          let arr = [];
+          arr.push(event);
+          res_hashmap[key] = arr;
+          this.$set(this.hashMap_events, key.toLowerCase(), arr);
+        }
+      });
       this.cleaned_events = res_events;
       return res_events;
     },
@@ -122,7 +171,7 @@ export default {
                 (Ax.from <= min && Ax.to >= min) || // Just the foot
                 (Ax.from <= max && Ax.to >= max) // Just the head
               ) {
-                console.log(Ax);
+                //console.log(Ax);
                 // Redefine search boundaries
                 if (Ax.from < min) {
                   min = Ax.from;
@@ -148,49 +197,58 @@ export default {
 @import "../variables";
 
 $day_width: 280px;
-$hour_height: 58px;
+$hour_height: 64px;
 $day_height: $hour_height * 24;
-
+.calendar-root {
+  margin-bottom: 100px;
+}
 .calendar-container {
-  overflow: scroll;
   @include mobile {
-    overflow: hidden;
+    width: 100vw;
   }
-  height: 80vh;
   display: grid;
-  grid-template-rows: 100px repeat(7, $day_height);
-  grid-template-columns: 100px repeat(7, $day_width);
+  grid-template-rows: 100px $day_height;
+  grid-template-columns: 50px repeat(7, $day_width);
   grid-template-areas:
     "whitespace CW_Header CW_Header CW_Header CW_Header CW_Header CW_Header CW_Header"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
-    "timetable monday tuesday wednesday thursday friday saturday sunday"
     "timetable monday tuesday wednesday thursday friday saturday sunday";
-  grid-column-gap: 1.2rem;
-  grid-row-gap: 0.7rem;
-  background-color: rgba(0, 0, 0, 0.199);
+  gap: 0.7rem 1rem;
 }
-
+// 0 is reserved for title space
 $timetable: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-  20, 21, 22, 23;
+  20, 21, 22, 23, 24;
 @each $i in $timetable {
   .TBhour#{$i} {
+    justify-content: center;
+    justify-self: center;
+    justify-items: center;
     grid-area: #{$i};
     height: $hour_height;
+    p {
+      height: 20px;
+      margin: auto;
+      text-align: center;
+    }
   }
   .hour#{$i} {
     grid-area: #{$i};
     height: $hour_height;
   }
 }
+.WeekdayDisplay {
+  position: absolute;
+  color: $primary;
+  width: 100%;
+  top: -58px;
+  text-align: center;
+}
 
 .weekday {
+  position: relative;
+  border-radius: $border-radius-xs;
   width: $day_width;
   height: $day_height;
-  border: 2px solid black;
+  background-color: $WT_grayl;
   display: grid;
   grid-template-rows: repeat(24, 1fr);
   grid-template-columns: auto;
