@@ -5,7 +5,7 @@ import inspiration from "../views/inspiration"
 import settings from "../views/settings"
 import travelList from "../views/travelList"
 import travelDiary from "../views/travelDiary"
-import Home from "../views/Home.vue"
+import test from "../views/test.vue"
 import landingPage from "../views/landingPage"
 import adventure from "../views/adventure"
 import exampleScroll from "../views/exampleScroll"
@@ -15,6 +15,11 @@ import { isAuthenticated } from '../utils/userService'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: "/test/",
+    name: "test",
+    component: test,
+  },
   {
     path: "/adventure/:pk/",
     name: "adventure",

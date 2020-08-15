@@ -10,6 +10,7 @@
 import Vue from "vue";
 import calendarWeek from "../components/calendarWeek";
 import * as adventureService from "../utils/adventureService";
+
 export default {
   name: "adventure",
   components: {

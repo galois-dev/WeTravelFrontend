@@ -24,12 +24,13 @@ axios.interceptors.response.use(reponse => {
   } = err;
   console.log("error with status " + status);
   if (status === 401 && data.message === "Expired token") {
-    store.dispatch("refreshLogin").then(({ status }) => {
+    store.dispatch("refreshLogin").then(async ({ status }) => {
       if (status === "success") {
-        return Promise.resolve(axios(config))
+        return Promise.resolve(await axios(config))
       }
       if (status === "error") {
         // Do nothing as user is already redirected
+        return response
       }
     })
   }

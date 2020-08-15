@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$mobile_height: calc(100vw / 7);
+$mobile_height: 58px;
 $mobile_width: 100vw;
 $height: 90vh;
 $width: 296px;
@@ -206,12 +206,11 @@ ul {
     }
   }
   @include phone {
-    position: absolute;
     width: $mobile_height;
-    bottom: 50px;
+    height: $mobile_height;
     left: 0;
     right: 0;
-    height: calc(100vw / 7);
+    bottom: 0px;
     padding: 0;
   }
 

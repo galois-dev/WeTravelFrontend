@@ -203,7 +203,7 @@ $day_height: $hour_height * 24;
   margin-bottom: 100px;
 }
 .calendar-container {
-  @include mobile {
+  @include phone {
     width: 100vw;
   }
   display: grid;

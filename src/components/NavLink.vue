@@ -42,10 +42,17 @@ export default {
   },
   methods: {
     clicked() {
+      // Prevent profile/2/profile/2/profile/2....
+      if (this.$router.history.current.path === "/" + this.path) {
+        throw Error("click the same nav item twice didnt you?");
+        return null; // Stop execution beyond this point
+      }
       // Use path or name routing depending on size of 'path'
       if (this.path.split("/").length > 1) {
+        // Use replace path for routes with params usr/:pk/
         this.$router.replace({ path: this.path });
       } else {
+        // Use for a direct view without a query attatched
         this.$router.replace({ name: this.path });
       }
       this.$emit("selected", this.ordering);

@@ -177,8 +177,11 @@ export default {
   },
   methods: {
     load: async function() {
-      console.log(this.$route.params.pk);
-      const res = await userService.getProfile(this.$route.params.pk);
+      const PK = this.$route.params.pk;
+      if (!PK && this.$store.state.UserSettings.pk) {
+        const res = await userService.getProfile(PK);
+      }
+      const res = await userService.getProfile(PK);
       await console.log(res);
     },
   },

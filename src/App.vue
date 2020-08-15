@@ -1,8 +1,5 @@
 <template>
   <div id="app" :class="hovered_nav ? 'NAVhovered' : 'NAVnothovered'">
-    <div :class="hovered_nav ? 'navbar NAVhovered' : 'navbar NAVnothovered'">
-      <Navigation v-show="show_nav" @showChanged="handleShowChanged" />
-    </div>
     <div class="main-view">
       <transition
         name="view"
@@ -14,6 +11,11 @@
           <router-view></router-view>
         </keep-alive>
       </transition>
+    </div>
+    <div class="nav-bar-wrapper">
+      <div :class="hovered_nav ? 'navbar NAVhovered' : 'navbar NAVnothovered'">
+        <Navigation v-show="show_nav" @showChanged="handleShowChanged" />
+      </div>
     </div>
   </div>
 </template>
@@ -49,16 +51,22 @@ export default {
 @import "variables";
 
 .navbar {
-  grid-area: nav;
   @include mobile {
     background-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
   @include desktop {
+    grid-area: nav;
     margin: auto;
     bottom: 0;
     margin-bottom: 0;
   }
   @include tablet {
+    grid-area: nav;
+
     margin: auto;
     bottom: 0;
     margin-bottom: 0;
@@ -76,15 +84,16 @@ export default {
 html,
 body,
 *::-webkit-scrollbar {
-  display: none;
-  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #app {
   background-color: $WT_background;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  position: relative;
   @include desktop {
     display: grid;
     &.NAVhovered {
@@ -119,8 +128,9 @@ body,
   }
   @include mobile {
     display: grid;
+    height: 100%;
     grid-template-columns: auto;
-    grid-template-rows: auto 58px;
+    grid-template-rows: 100% 50px;
     grid-template-areas:
       "app"
       "nav";
@@ -132,6 +142,7 @@ body,
   overflow: auto;
   height: 100vh;
   @include mobile {
+    height: 100%;
     padding-left: 0;
   }
   animation-delay: 0.5s;

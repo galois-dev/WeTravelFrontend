@@ -111,7 +111,7 @@ export default {
     gotoAdventure() {
       const props = this.$props;
       const pk = String(props.pk);
-      this.$router.push({
+      this.$router.replace({
         path: `adventure/${pk}`,
       });
     },

@@ -12,6 +12,13 @@ $max-content-width: 720px;
 // Responsive breakpoints
 $tablet-width: 768px;
 $desktop-width: 1024px;
+
+// Overloaded this term because i've simply fucked it up too many times to care now.
+@mixin mobile {
+  @media (min-width: #{0px}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
 @mixin phone {
   @media (min-width: #{0px}) and (max-width: #{$tablet-width - 1px}) {
     @content;
@@ -38,6 +45,7 @@ $primary: #db8653;
 $primary2: #bd774d;
 $WT_gray1: #9b9b9b;
 $WT_gray2: #858b97;
+$WT_grayd: #959595;
 $WT_grayl: #eaeaea;
 $WT_white: #ffffff;
 $WT_background: #fcfcfc;
@@ -233,4 +241,14 @@ body,
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
