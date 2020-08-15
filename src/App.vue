@@ -12,10 +12,8 @@
         </keep-alive>
       </transition>
     </div>
-    <div class="nav-bar-wrapper">
-      <div :class="hovered_nav ? 'navbar NAVhovered' : 'navbar NAVnothovered'">
-        <Navigation v-show="show_nav" @showChanged="handleShowChanged" />
-      </div>
+    <div :class="hovered_nav ? 'navbar NAVhovered' : 'navbar NAVnothovered'">
+      <Navigation v-show="show_nav" @showChanged="handleShowChanged" />
     </div>
   </div>
 </template>
@@ -66,7 +64,6 @@ export default {
   }
   @include tablet {
     grid-area: nav;
-
     margin: auto;
     bottom: 0;
     margin-bottom: 0;

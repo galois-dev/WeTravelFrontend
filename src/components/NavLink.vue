@@ -50,7 +50,11 @@ export default {
       // Use path or name routing depending on size of 'path'
       if (this.path.split("/").length > 1) {
         // Use replace path for routes with params usr/:pk/
-        this.$router.replace({ path: this.path });
+        // this.$router.push({ path: this.path });
+        this.$router.push({
+          name: this.path.split("/")[0],
+          params: { pk: this.path.split("/")[1] },
+        });
       } else {
         // Use for a direct view without a query attatched
         this.$router.replace({ name: this.path });
@@ -68,6 +72,7 @@ $image_width: calc(100vw / 7);
 $width_mobile: $height_mobile;
 $height_desktop: 58px;
 $width_desktop: 100%;
+$mobile_maxheight: 58px;
 
 $select_background_color: $light;
 
@@ -126,6 +131,7 @@ li:last-child {
 }
 img {
   @include phone {
+    max-height: $mobile_maxheight;
     width: $image_width;
     height: 80%;
     align-self: center;
@@ -166,6 +172,8 @@ a:visited {
   @include phone {
     border-radius: 9px;
     height: $image_width;
+    max-height: $mobile_maxheight;
+
     width: $image_width;
   }
   display: flex;
@@ -205,10 +213,12 @@ li {
     width: $width_desktop;
   }
   @include phone {
+    max-height: $mobile_maxheight;
     height: $image_width;
   }
   a {
     @include phone {
+      max-height: $mobile_maxheight;
       height: $image_width;
       text-decoration: none;
       display: block;

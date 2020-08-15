@@ -146,14 +146,26 @@
       <h3 class="orangeText">Travel Plans</h3>
       <hr />
       <br />
+      <div v-if="!loading">
+        <travel_book_list :travel_books="[]" />
+      </div>
       <div class="travelplans-grid">
-        <div v-if="!loading">
-          <travel_book_list :travel_books="[]" />
-        </div>
-        <template v-else>
-          <b-skeleton width="300px" height="300px"></b-skeleton>
-          <b-skeleton width="300px" height="300px"></b-skeleton>
-          <b-skeleton width="300px" height="300px"></b-skeleton>
+        <template>
+          <b-skeleton
+            width="500px"
+            height="500px"
+            style="margin: auto;"
+          ></b-skeleton>
+          <b-skeleton
+            width="500px"
+            height="500px"
+            style="margin: auto;"
+          ></b-skeleton>
+          <b-skeleton
+            width="500px"
+            height="500px"
+            style="margin: auto;"
+          ></b-skeleton>
         </template>
       </div>
     </div>
@@ -307,7 +319,7 @@ export default {
       grid-template-columns: 1fr;
       grid-gap: 0px;
     }
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     grid-gap: 10px;
   }
 }

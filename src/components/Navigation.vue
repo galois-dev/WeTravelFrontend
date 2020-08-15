@@ -117,7 +117,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$mobile_height: 58px;
+$mobile_height: calc(100vw / 7);
+$mobile_maxheight: 58px;
+
 $mobile_width: 100vw;
 $height: 90vh;
 $width: 296px;
@@ -129,6 +131,8 @@ ul {
     align-items: center; /* Default */
     justify-content: center;
     width: $mobile_width;
+    max-height: $mobile_maxheight;
+
     margin: 0;
     padding: 0;
   }
@@ -208,6 +212,7 @@ ul {
   @include phone {
     width: $mobile_height;
     height: $mobile_height;
+    max-height: $mobile_maxheight;
     left: 0;
     right: 0;
     bottom: 0px;
@@ -222,11 +227,13 @@ ul {
     @include phone {
       width: $mobile_width;
       height: $mobile_height;
+      max-height: $mobile_maxheight;
+
       padding: 0px;
       -webkit-box-shadow: 10px 10px 34px -6px rgba(0, 0, 0, 0.75);
       -moz-box-shadow: 10px 10px 34px -6px rgba(0, 0, 0, 0.75);
       box-shadow: 10px 10px 34px -6px rgba(0, 0, 0, 0.75);
-      border-radius: 9px;
+      border-radius: 0;
     }
     height: $height;
     width: $width;
