@@ -183,8 +183,8 @@ ul {
     transition: 0.5s;
 
     &.NAVshow {
-      transition: 0.5s;
       width: auto;
+      background-color: $WT_background;
     }
     &.NAVhidden {
       transition: 0.5s;
@@ -199,7 +199,7 @@ ul {
     transition: 0.5s;
 
     &.NAVshow {
-      transition: 0.5s;
+      background-color: $WT_background;
       width: auto;
     }
     &.NAVhidden {

@@ -15,16 +15,15 @@
           </div>
           <div class="TB-data">
             <div class="TB-title">
-              <h4>{{ travel.title }}</h4>
+              <h4 class="TBTitleWrapper">{{ travel.title }}</h4>
             </div>
             <div class="TB-location">
               <b-icon icon="map-marker"></b-icon>{{ travel.location }}
             </div>
             <div class="TB-owner">
-              <b-icon icon="account"></b-icon> {{ travel.creator }}
+              <b-icon icon="account"></b-icon>Created by {{ travel.owner }}
             </div>
             <div class="TB-pricing">
-              Pricing:
               <pricing_range :rating="3" />
             </div>
             <div class="TB-tags" :v-if="travel.tags">
@@ -35,9 +34,9 @@
       </template>
     </div>
     <template v-else>
-      <b-skeleton width="300px" height="300px"></b-skeleton>
-      <b-skeleton width="300px" height="300px"></b-skeleton>
-      <b-skeleton width="300px" height="300px"></b-skeleton>
+      <b-skeleton width="500px" height="500px"></b-skeleton>
+      <b-skeleton width="500px" height="500px"></b-skeleton>
+      <b-skeleton width="500px" height="500px"></b-skeleton>
     </template>
   </div>
 </template>
@@ -74,12 +73,11 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 @import "../variables";
 $width: 500px;
 $height: 500px;
-$picturegrid_gap: 8px;
+$picturegrid_gap: 4px;
 
 .TBList-root {
   min-width: $width;
@@ -98,7 +96,7 @@ $picturegrid_gap: 8px;
   border-radius: $border-radius-s;
   margin: $picturegrid_gap;
   display: grid;
-  grid-template-rows: 300px 200px;
+  grid-template-rows: 3fr 2fr;
   grid-auto-columns: 1fr;
   grid-template-areas:
     "pictures"
@@ -106,36 +104,60 @@ $picturegrid_gap: 8px;
   --animate-duration: 0.5s;
   width: $width;
   height: $height;
+  @include phone {
+    grid-template-rows: 1fr auto;
+    height: $height * 1.3;
+    width: 350px;
+    justify-self: start;
+    align-self: start;
+  }
+}
+.TB-pricing {
+  margin-left: 5px;
+}
+.TB-location {
+  padding: 2px;
+  font-size: 18px;
+  font-weight: 400;
+  color: $WT_gray1;
+}
+.TB-owner {
+  padding: 2px;
+  font-size: 18px;
+  color: $WT_gray1;
 }
 
 .TB-images {
   margin: $picturegrid_gap;
-  margin-bottom: -10px;
   grid-area: pictures;
   display: grid;
+  @include phone {
+    justify-self: center;
+    grid-template-columns: 150px 150px;
+    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+  }
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   grid-template-rows: 150px 150px;
   gap: 0px $picturegrid_gap;
   img {
     object-fit: cover;
     justify-self: center;
-    border-radius: $border-radius-xs;
     align-self: center;
-    height: 150px;
     width: 150px;
-    margin: 0;
-    padding: 0;
+    height: 150px;
   }
 }
 
-h4 {
+.TBTitleWrapper {
   color: $primary;
-  margin: 0;
-  padding: 0;
+  margin-bottom: -0.5rem;
+  margin-left: 6px;
 }
 .TB-data {
   grid-area: data;
   margin: $picturegrid_gap;
-  margin-top: 0;
+  margin-top: -6px;
+  margin-bottom: 0;
+  margin-left: 5px;
 }
 </style>

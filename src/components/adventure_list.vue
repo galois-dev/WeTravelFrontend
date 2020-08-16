@@ -9,45 +9,9 @@
       :banner="adventure.banner"
       :pk="String(adventure.pk)"
       :travellers="adventure.travellers"
-      :creator="adventure.creator"
+      :creator="adventure.owner"
       :travel_start="adventure.start"
       :travel_end="adventure.end"
-    />
-
-    <adventure_card
-      :title="'mock card'"
-      :location="'London'"
-      v-bind:travellers="[
-        {
-          url:
-            'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          alt: 'user picture',
-
-          pk: 1,
-        },
-        {
-          url:
-            'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          alt: 'user picture',
-          pk: 2,
-        },
-        {
-          url:
-            'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          alt: 'user picture',
-          pk: 4,
-        },
-      ]"
-      :banner="{
-        url:
-          'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
-        alt: 'london bridge',
-      }"
-      :tags="[]"
-      :travel_start="'2020/08/30'"
-      :travel_end="'2020/09/29'"
-      :creator="'myself?'"
-      :pk="'IDONOTEXIST'"
     />
   </div>
 </template>
@@ -73,7 +37,8 @@ export default {
     update_self(hasRun = false) {
       let res = getAdventuresByMode(this.$props.mode)
         .then((data) => {
-          if (!(!data && !data.data)) {
+          if (!data.data) {
+            console.log(data);
             this.$buefy.toast.open({
               message:
                 "error code: 500 - Server unavaliable to send data for adventures.",

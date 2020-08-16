@@ -86,11 +86,6 @@ export default {
       CreateButtonHover: false,
     };
   },
-  methods: {
-    async getByMode(mode) {
-      return await getAdventuresByMode(mode);
-    },
-  },
 };
 </script>
 

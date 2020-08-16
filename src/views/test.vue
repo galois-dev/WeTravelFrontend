@@ -14,11 +14,11 @@
             pk: 2,
           },
         ],
-        location: 'London',
+        location: 'London - Great Britain',
         tags: [
           {
             name: 'Nature',
-            color: '#ABAA',
+            color: '#4099ff',
             pk: 1,
           },
         ],
@@ -63,11 +63,11 @@
             pk: 2,
           },
         ],
-        location: 'London',
+        location: 'London - Great Britain',
         tags: [
           {
             name: 'Nature',
-            color: '#ABAA',
+            color: '#4099ff',
             pk: 1,
           },
         ],
@@ -108,17 +108,52 @@
             pk: 2,
           },
         ],
-        location: 'London',
+        location: 'London - Great Britain',
         tags: [
           {
             name: 'Nature',
-            color: '#ABAA',
+            color: '#4099ff',
             pk: 1,
           },
           {
             name: 'Testable',
-            color: '#ABEAA',
+            color: '#8f9aa5',
             pk: 2,
+          },
+          {
+            name: 'Leute',
+            color: '#ff0000',
+            pk: 3,
+          },
+          {
+            name: 'die',
+            color: '#cc00ff',
+            pk: 4,
+          },
+          {
+            name: ' \'die',
+            color: '#9e3f00',
+            pk: 5,
+          },
+          {
+            name: ' Nutella\'',
+            color: '#9e3f00',
+            pk: 7,
+          },
+          {
+            name: 'sagen',
+            color: '#beff0a',
+            pk: 6,
+          },
+          {
+            name: 'sind',
+            color: '#2dc906',
+            pk: 9,
+          },
+          {
+            name: ' psychopathen',
+            color: '#4099ff',
+            pk: 10,
           },
         ],
         pk: 2,
@@ -138,6 +173,14 @@
           {
             url: `https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80`,
             pk: 4,
+          },
+          {
+            url: `https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80`,
+            pk: 36,
+          },
+          {
+            url: `https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80`,
+            pk: 7,
           },
         ],
       },

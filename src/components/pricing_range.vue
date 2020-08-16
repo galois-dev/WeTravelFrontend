@@ -1,7 +1,7 @@
 <template>
   <div class="Price">
     <p
-      class="noselect"
+      class="pricetags noselect"
       v-for="i in [1, 2, 3, 4, 5]"
       :key="i"
       :style="dollarsign_style(i)"
@@ -50,10 +50,12 @@ export default {
 .Price {
   display: inline-flex;
 }
-p {
+.pricetags {
   display: inline;
-  margin: 2px;
-  font-size: 26px;
+  margin: 5px;
+  margin-bottom: 2px;
+  margin-top: -4px;
+  font-size: 24px;
   font-weight: 600;
 }
 </style>

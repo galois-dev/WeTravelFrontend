@@ -4,8 +4,14 @@
       <div class="left-major">
         <div class="travellers" v-if="travellers.length > 0">
           <ul class="travllers-icons">
-            <li v-for="traveller in travellers" :key="traveller.pk">
-              <img :src="traveller.url" :alt="traveller.alt" />
+            <li
+              v-for="traveller in travellers"
+              :key="traveller.pk"
+              @click.stop="gotoProfile(traveller.pk)"
+            >
+              <b-tooltip :label="'traveller.name'">
+                <img :src="traveller.image.url" :alt="traveller.image.alt"
+              /></b-tooltip>
             </li>
           </ul>
         </div>
@@ -44,12 +50,12 @@ export default {
       required: true,
     },
     travellers: {
-      type: Array, // has member properties of profile_image.url&.alt and pk
+      type: Array, // has member properties of image.url&.alt and pk
       required: false,
       default: () => {
         return [
           {
-            profile_image: {
+            image: {
               url:
                 "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
               alt: "user picture",
@@ -113,6 +119,12 @@ export default {
       const pk = String(props.pk);
       this.$router.push({
         name: "adventure",
+        params: { pk },
+      });
+    },
+    gotoProfile(pk) {
+      this.$router.push({
+        name: "profile",
         params: { pk },
       });
     },
@@ -209,15 +221,16 @@ img {
 .travllers-icons {
   img {
     border-radius: 50%;
-    height: 24px;
-    width: 24px;
+    height: 32px;
+    width: 32px;
     margin: 0;
     overflow: hidden;
   }
   li {
     margin: 0;
-    height: 24px;
-    width: 24px;
+    height: 32px;
+    width: 32px;
+    margin-left: 2px;
   }
 }
 .AC-Description-side {
