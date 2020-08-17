@@ -74,7 +74,6 @@ export default {
         "," +
         col3 +
         ")";
-      console.log(val);
       return {
         "background-image": val,
       };

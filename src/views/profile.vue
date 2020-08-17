@@ -22,7 +22,7 @@
             :type="edit_mode ? 'is-danger' : 'is-primary'"
             rounded
             @click="edit_mode = !edit_mode"
-            >{{ edit_mode ? "Undo" : "Edit" }}</b-button
+            >{{ edit_mode ? "Back" : "Edit" }}</b-button
           >
           <b-button
             v-if="edit_mode"
@@ -242,6 +242,7 @@ import axios from "axios";
 import * as userService from "../utils/userService";
 import travel_book_list from "../components/travel_book_list";
 import tags_list from "../components/tags_list";
+import FormData from "form-data";
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -283,31 +284,38 @@ export default {
     },
     uploadChanges() {},
     async uploadProfilePic(e) {
-      console.log(e.type);
-      if (e) {
-        const reader = new FileReader();
-        reader.readAsDataURL(e);
-        reader.onload = async (n) => {
-          let res = await axios.post(
-            "/profile/picture/",
-            {
-              data: n.currentTarget.result,
-            },
-            {
-              headers: {
-                "Content-Type": `${e.type}`,
+      let fd = new FormData();
+      fd.append("image", this.imgFile);
+
+      let res = await axios.post(
+        "/profile/picture/",
+        {
+          fd,
+          // data: n.currentTarget.result,
+        },
+        {
+          headers: {
+            "content-type":
+              "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+          },
+          multipart: {
+            chunked: false,
+            data: [
+              {
+                "Content-Disposition": `form-data; name="filedata"; filename="${fd}"`,
+                body: JSON.stringify(fd),
               },
-            }
-          );
-          if (!res) {
-            this.$buefy.toast.open({
-              type: "is-danger",
-              message: "image upload failed",
-            });
-          } else {
-            this.profile_data.profile_image = res.url;
-          }
-        };
+            ],
+          },
+        }
+      );
+      if (!res) {
+        this.$buefy.toast.open({
+          type: "is-danger",
+          message: "image upload failed",
+        });
+      } else {
+        this.profile_data.profile_image = res.url;
       }
     },
   },

@@ -53,10 +53,10 @@
                     :value="option['code']"
                     :key="option['code']"
                     :selected="country"
-                    >{{ option["name"] }}</option
+                    >{{ option["code"] }}</option
                   >
                 </b-select>
-                <p>{{ country }}</p>
+                <p>{{ _flag(country) }}</p>
               </div>
             </div>
 
@@ -117,6 +117,7 @@
 <script>
 import * as userService from "../utils/userService";
 import { LT, settingsform, buildComputedProperty } from "../utils/translations";
+import flag from "country-code-emoji";
 
 export default {
   mounted() {
@@ -559,6 +560,9 @@ export default {
           this.loading = false;
           // this.$router.push({ name: "Home" });
         });
+    },
+    _flag(country) {
+      return flag(country);
     },
   },
 };

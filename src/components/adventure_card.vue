@@ -52,18 +52,6 @@ export default {
     travellers: {
       type: Array, // has member properties of image.url&.alt and pk
       required: false,
-      default: () => {
-        return [
-          {
-            image: {
-              url:
-                "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-              alt: "user picture",
-            },
-            pk: 1,
-          },
-        ];
-      },
     },
     banner: {
       type: Object, // has alt and url properties
