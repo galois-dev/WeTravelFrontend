@@ -5,7 +5,9 @@
     <div class="name-container">
       <div class="name-wrapper">
         <span class="username-text-container">
-          <h3 class="orangeText" v-if="!loading">{{ profile_data.name }}</h3>
+          <div v-if="!loading">
+            <h3 class="orangeText">{{ profile_data.name }}</h3>
+          </div>
           <div v-else>
             <b-skeleton
               :active="loading"
@@ -19,7 +21,7 @@
 
         <span class="edit-button-container" v-if="isOwner">
           <b-button
-            :type="edit_mode ? 'is-danger' : 'is-primary'"
+            :type="edit_mode ? 'is-danger' : 'is-warning is-light'"
             rounded
             @click="edit_mode = !edit_mode"
             >{{ edit_mode ? "Back" : "Edit" }}</b-button
@@ -82,7 +84,11 @@
         <div class="country-field">
           <span v-if="!loading">
             <span class="grayBioLeft">Country: </span>
-            <span class="blackBioRight">{{ profile_data.country }}</span>
+            <b-tooltip :label="profile_data.country">
+              <span class="blackBioRight">{{
+                getFlag(profile_data.country)
+              }}</span>
+            </b-tooltip>
           </span>
           <span v-else>
             <b-skeleton :active="loading" width="35%"></b-skeleton>
@@ -200,6 +206,12 @@
           </section>
         </b-upload>
       </div>
+      <b-button
+        v-if="!isOwner"
+        :type="isFollowing ? 'is-primary is-light' : 'is-primary'"
+        @click="handleFollowButton"
+        >{{ isFollowing ? "Unfollow" : "Follow" }}</b-button
+      >
     </div>
     <div v-else class="picture-wrapper">
       <b-skeleton circle width="250px" height="250px"></b-skeleton>
@@ -242,11 +254,12 @@ import axios from "axios";
 import * as userService from "../utils/userService";
 import travel_book_list from "../components/travel_book_list";
 import tags_list from "../components/tags_list";
-import FormData from "form-data";
+import flag from "country-code-emoji";
 
 function _calculateAge(birthday) {
   // birthday is a date
-  var ageDifMs = Date.now() - birthday.getTime();
+  const bday = new Date(birthday);
+  var ageDifMs = Date.now() - bday;
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
@@ -284,45 +297,50 @@ export default {
     },
     uploadChanges() {},
     async uploadProfilePic(e) {
-      let fd = new FormData();
-      fd.append("image", this.imgFile);
-
-      let res = await axios.post(
-        "/profile/picture/",
-        {
-          fd,
-          // data: n.currentTarget.result,
-        },
-        {
-          headers: {
-            "content-type":
-              "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-          },
-          multipart: {
-            chunked: false,
-            data: [
-              {
-                "Content-Disposition": `form-data; name="filedata"; filename="${fd}"`,
-                body: JSON.stringify(fd),
-              },
-            ],
-          },
-        }
-      );
-      if (!res) {
+      let res = await userService.uploadProfilePicture(this.imgFile);
+      if (!res.data) {
         this.$buefy.toast.open({
           type: "is-danger",
           message: "image upload failed",
         });
       } else {
-        this.profile_data.profile_image = res.url;
+        this.$buefy.toast.open({
+          type: "is-success",
+          message: "image uploaded successfully",
+        });
+        console.log(res);
+        this.profile_data.image.url = res.data.url;
       }
+    },
+    getFlag(flagCode) {
+      if (flagCode) return flag(flagCode);
+    },
+    async handleFollowButton(e) {
+      const PK = this.$route.params.pk;
+      const is_following = this.profile_data.is_following;
+      const res = is_following
+        ? userService.unfollowUser(PK)
+        : userService.followUser(PK);
+      console.log(res);
     },
   },
   computed: {
+    // check for ownership but i think theres a field for it in
     isOwner() {
       if (!this.loading) {
         if (this.$route.params.pk == this.$store.state.UserSettings.pk) {
+          return true;
+        }
+      }
+      return false;
+    },
+    isFollowing() {
+      if (!this.loading) {
+        if (
+          this.profile_data.is_following
+            ? this.profile_data.is_following
+            : false
+        ) {
           return true;
         }
       }
@@ -332,10 +350,7 @@ export default {
       get() {
         if (!this.loading) {
           const url =
-            "url(" +
-            this.profile_data.profile_image +
-            ")" +
-            " 50%, 50%, no-repeat";
+            "url(" + this.profile_data.image.url + ")" + " 50%, 50%, no-repeat";
           return {
             background: [url],
           };

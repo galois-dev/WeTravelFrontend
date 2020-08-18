@@ -6,13 +6,18 @@
           :key="travel.pk"
           class="TB-element animate__animated animate__zoomInUp"
         >
-          <div class="TB-images">
+          <b-carousel class="TB-images" :autoplay="false">
+            <b-carousel-item v-for="(image, i) in travel.images" :key="i">
+              <img :src="image.url" />
+            </b-carousel-item>
+          </b-carousel>
+          <!-- <div class="TB-images">
             <img
               v-for="image in travel.images"
               :key="image.pk"
               :src="image.url"
             />
-          </div>
+          </div> -->
           <div class="TB-data">
             <div class="TB-title">
               <h4 class="TBTitleWrapper">{{ travel.title }}</h4>
@@ -80,10 +85,22 @@ $height: 500px;
 $picturegrid_gap: 4px;
 
 .TBList-root {
+  @include phone {
+    min-width: 0px;
+    max-width: 100vw;
+  }
   min-width: $width;
 }
 .TBList-content {
-  width: 100%;
+  @include desktop {
+    width: 100%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+  @include phone {
+    max-width: 100vw;
+  }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 }
@@ -105,9 +122,13 @@ $picturegrid_gap: 4px;
   width: $width;
   height: $height;
   @include phone {
-    grid-template-rows: 1fr auto;
-    height: $height * 1.3;
-    width: 350px;
+    margin-left: 0;
+    margin-right: 0;
+    grid-template-rows: 1fr 1fr;
+    grid-row-gap: 1rem;
+    height: $height * 1.2;
+    width: 100vw;
+    max-width: 100vw;
     justify-self: start;
     align-self: start;
   }
@@ -126,27 +147,47 @@ $picturegrid_gap: 4px;
   font-size: 18px;
   color: $WT_gray1;
 }
-
 .TB-images {
-  margin: $picturegrid_gap;
+  margin: 0.5rem;
   grid-area: pictures;
   display: grid;
-  @include phone {
-    justify-self: center;
-    grid-template-columns: 150px 150px;
-    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
-  }
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-template-rows: 150px 150px;
-  gap: 0px $picturegrid_gap;
+}
+.carousel-items {
+  align-self: center;
+  justify-self: center;
+}
+.carousel-item {
   img {
+    margin: auto;
+    left: 0;
+    right: 0;
     object-fit: cover;
-    justify-self: center;
-    align-self: center;
-    width: 150px;
-    height: 150px;
+
+    height: 300px !important;
+    max-height: 300px !important;
+    width: auto;
   }
 }
+// .TB-images {
+//   margin: $picturegrid_gap;
+//   grid-area: pictures;
+//   display: grid;
+//   @include phone {
+//     justify-self: center;
+//     grid-template-columns: 150px 150px;
+//     grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+//   }
+//   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+//   grid-template-rows: 150px 150px;
+//   gap: 0px $picturegrid_gap;
+//   img {
+//     object-fit: cover;
+//     justify-self: center;
+//     align-self: center;
+//     width: 150px;
+//     height: 150px;
+//   }
+// }
 
 .TBTitleWrapper {
   color: $primary;

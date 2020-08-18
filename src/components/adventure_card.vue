@@ -9,8 +9,8 @@
               :key="traveller.pk"
               @click.stop="gotoProfile(traveller.pk)"
             >
-              <b-tooltip :label="'traveller.name'">
-                <img :src="traveller.image.url" :alt="traveller.image.alt"
+              <b-tooltip :label="traveller.name" position="is-right">
+                <img :src="traveller.icon.url" :alt="traveller.icon.alt"
               /></b-tooltip>
             </li>
           </ul>

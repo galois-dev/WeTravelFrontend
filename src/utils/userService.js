@@ -2,6 +2,7 @@ import { authHeader } from "./api"
 import axios from "axios"
 import store, { ACCESS_TIMEOUT } from "../store/index"
 import getAuthHeader from "./api"
+import FormData from "form-data";
 
 export async function login(username, password) {
     const { data, status, statusTExt } = await axios.post('/token/', { username, password },)
@@ -109,6 +110,77 @@ export async function getProfile(id) {
     }
 
     return data
+}
+
+export async function uploadProfilePicture(file) {
+    let fd = new FormData();
+    fd.append("image", file);
+    let res = await axios.post(
+        "/profile/picture/",
+        {
+            fd,
+        },
+        {
+            headers: {
+                "content-type":
+                    "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+            },
+            multipart: {
+                chunked: false,
+                data: [
+                    {
+                        "Content-Disposition": `form-data; name="filedata"; filename="${"image"}"`,
+                        body: JSON.stringify(fd),
+                    },
+                ],
+            },
+        }
+    );
+    return res
+}
+
+export async function getFollowers(id) {
+    const config = {
+        method: "get",
+        url: `/api/follow/${id}/followers/`,
+        data: {
+            pk: id
+        }
+    }
+    return await axios(config)
+}
+
+export async function getFollowing(id) {
+    const config = {
+        method: "get",
+        url: `/api/follow/${id}/followers/`,
+        data: {
+            pk: id
+        }
+    }
+    return await axios(config)
+}
+
+export async function followUser(id) {
+    const config = {
+        method: "post",
+        url: "/follow/",
+        data: {
+            pk: Number(id),
+        },
+    };
+    return await axios(config)
+}
+
+export async function unfollowUser(id) {
+    const config = {
+        method: "delete",
+        url: "/follow/",
+        data: {
+            pk: Number(id),
+        },
+    };
+    return await axios(config)
 }
 
 export async function logout() {

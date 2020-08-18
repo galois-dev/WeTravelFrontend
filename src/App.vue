@@ -7,9 +7,7 @@
         enter-active-class="animate__animated animate__backInLeft"
         leave-active-class="animate__animated animate__backOutRight"
       >
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
       </transition>
     </div>
     <div :class="hovered_nav ? 'navbar NAVhovered' : 'navbar NAVnothovered'">
