@@ -114,7 +114,11 @@
         <div class="tags-lists">
           <div class="interests-list">
             <span v-if="!loading">
-              <tags_list :tags="profile_data.interests" :editing="edit_mode" />
+              <tags_list
+                :tags="profile_data.interests"
+                :editing="edit_mode"
+                :typeOfTag="'Interest'"
+              />
             </span>
             <span v-else>
               <b-skeleton
@@ -128,7 +132,11 @@
 
           <div class="pallete-list">
             <span v-if="!loading">
-              <tags_list :tags="profile_data.tastes" :editing="edit_mode" />
+              <tags_list
+                :tags="profile_data.tastes"
+                :editing="edit_mode"
+                :typeOfTag="'Taste'"
+              />
             </span>
             <span v-else>
               <b-skeleton
@@ -229,16 +237,8 @@
       <div class="travelplans-grid" v-else>
         <template>
           <b-skeleton
-            width="500px"
-            height="500px"
-            style="margin: auto;"
-          ></b-skeleton>
-          <b-skeleton
-            width="500px"
-            height="500px"
-            style="margin: auto;"
-          ></b-skeleton>
-          <b-skeleton
+            v-for="i in [1, 2, 3]"
+            :key="i"
             width="500px"
             height="500px"
             style="margin: auto;"
@@ -256,6 +256,12 @@ import travel_book_list from "../components/travel_book_list";
 import tags_list from "../components/tags_list";
 import flag from "country-code-emoji";
 import follower_list from "../components/follower_list";
+
+const tagTypes = {
+  Interest: "Interest",
+  Adventure: "Adventure",
+  Taste: "Taste",
+};
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -373,7 +379,6 @@ export default {
           handleFollow: this.handleFollow,
         },
         hasModalCard: true,
-        customClass: "custom-class custom-class-2",
         trapFocus: true,
       });
     },
@@ -403,7 +408,7 @@ export default {
           }
         });
       } else {
-        this.$$buefy.toast.open({
+        this.$buefy.toast.open({
           type: "is-danger",
           message: res.data,
         });

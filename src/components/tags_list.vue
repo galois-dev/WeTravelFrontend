@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import tags_list_edit from "./tags_list_edit";
+
 function LightenDarkenColor(col, amt) {
   var usePound = true;
   if (col[0] == "#") {
@@ -52,10 +54,15 @@ export default {
       type: Boolean,
       required: true,
     },
+    typeOfTag: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
       loading: true,
+      editAbleTags: [],
     };
   },
   mounted() {
@@ -78,8 +85,25 @@ export default {
         "background-image": val,
       };
     },
-    editTags() {
-      window.alert("Todo: add edit tags feature");
+    async editTags() {
+      console.log(this.$props.tags);
+      this.$buefy.modal.open({
+        parent: this,
+        component: tags_list_edit,
+        props: {
+          ITags: this.$props.tags,
+          typeOfTag: this.$props.typeOfTag,
+        },
+        events: {
+          save: this.persistChanges,
+        },
+        hasModalCard: true,
+        trapFocus: true,
+      });
+    },
+    persistChanges(tags) {
+      console.log(tags);
+      this.$emit("save", tags);
     },
   },
 };
