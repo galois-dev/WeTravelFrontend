@@ -13,6 +13,8 @@ $max-content-width: 720px;
 $tablet-width: 768px;
 $desktop-width: 1024px;
 
+$modal-z: 100;
+
 // Overloaded this term because i've simply fucked it up too many times to care now.
 @mixin mobile {
   @media (min-width: #{0px}) and (max-width: #{$tablet-width - 1px}) {

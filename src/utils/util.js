@@ -3,7 +3,13 @@ import store from "../store/index"
 export const localisedComputedPropertyWrapper = (lang, args) => {
     return args.lang ? args.lang : args["EN"]
 }
-
+export function calculateAge(birthday) {
+    // birthday is a date
+    const bday = new Date(birthday);
+    var ageDifMs = Date.now() - bday;
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
 export const countries = [
     { "name": "Afghanistan", "code": "AF" },
     { "name": "Åland Islands", "code": "AX" },

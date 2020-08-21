@@ -8,8 +8,8 @@
   >
     <div class="navigation-inner">
       <div class="profile-wrapper">
-        <img :src="require('@/assets/IMG_5618.jpg')" />
-        <p>Hi, Benjamin</p>
+        <img :src="profilePicture" />
+        <p>Hi, {{ $store.state.UserSettings.firstname }}</p>
       </div>
       <div class="links-wrapper">
         <ul>
@@ -48,6 +48,16 @@ export default {
     this.loading = true;
     await this.buildPathsWithState();
     this.loading = false;
+  },
+  computed: {
+    profilePicture: {
+      get() {
+        if (!this.loading) {
+          return this.$store.state.UserSettings.profilePicture;
+        }
+        return "";
+      },
+    },
   },
   methods: {
     handleSelect(e) {},

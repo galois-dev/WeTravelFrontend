@@ -58,7 +58,7 @@
         <!-- --- Follower lists --- -->
 
         <div class="follower-lists">
-          <div class="followers">
+          <div class="followers" @click="getFollowerList">
             <span v-if="!loading">
               <span class="grayBioLeft">Followers: </span>
               <span class="blackBioRight">{{ profile_data.nfollowers }}</span>
@@ -67,7 +67,7 @@
               ><b-skeleton :active="loading" width="75%"></b-skeleton
             ></span>
           </div>
-          <div class="following">
+          <div class="following" @click="getFollowingList">
             <span v-if="!loading"
               ><span class="grayBioLeft">Following: </span>
               <span class="blackBioRight">{{
@@ -255,6 +255,7 @@ import * as userService from "../utils/userService";
 import travel_book_list from "../components/travel_book_list";
 import tags_list from "../components/tags_list";
 import flag from "country-code-emoji";
+import follower_list from "../components/follower_list";
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -274,6 +275,9 @@ export default {
       profile_data: {},
       inputDescription: "",
       imgFile: {},
+      isFollowerModalActive: false,
+      follower_list_keeper: [],
+      next_follower_page: "",
     };
   },
   async mounted() {
@@ -317,11 +321,94 @@ export default {
     },
     async handleFollowButton(e) {
       const PK = this.$route.params.pk;
-      const is_following = this.profile_data.is_following;
+      const is_following = this.profile_data.is_followed;
       const res = is_following
-        ? userService.unfollowUser(PK)
-        : userService.followUser(PK);
-      console.log(res);
+        ? await userService.unfollowUser(PK)
+        : await userService.followUser(PK);
+      if (res.data.Success === "Now following") {
+        this.profile_data.is_followed = true;
+        this.profile_data.nfollowers += 1;
+      } else if (res.data.Success === "Unfollowed") {
+        this.profile_data.is_followed = false;
+        this.profile_data.nfollowers -= 1;
+      } else {
+        this.$$buefy.toast.open({
+          type: "is-danger",
+          message: res.data,
+        });
+      }
+    },
+    // add error handling
+    async getFollowerList() {
+      const PK = this.$route.params.pk;
+      const followers = await userService.getFollowers(PK);
+      console.log(followers);
+      this.follower_list_keeper = followers.data.results;
+      if (followers.data.next !== null) {
+        this.next_follower_page = followers.data.next;
+      }
+      this.isFollowerModalActive = true;
+      this.openFollowerList(this.follower_list_keeper);
+    },
+    async getFollowingList() {
+      const PK = this.$route.params.pk;
+      const followers = await userService.getFollowing(PK);
+      console.log(followers);
+      this.follower_list_keeper = followers.data.results;
+      if (followers.data.next !== null) {
+        this.next_follower_page = followers.data.next;
+      }
+      this.isFollowerModalActive = true;
+      this.openFollowerList(this.follower_list_keeper);
+    },
+    async openFollowerList(follows) {
+      this.$buefy.modal.open({
+        parent: this,
+        component: follower_list,
+        props: {
+          travellers: follows,
+        },
+        events: {
+          update: this.handleFollowerListUpdate,
+          handleFollow: this.handleFollow,
+        },
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+      });
+    },
+    async handleFollowerListUpdate() {
+      const res = await axios(this.next_follower_page);
+      this.follower_list_keeper.push(...res.data);
+    },
+    async handleFollow(e) {
+      const PK = e.pk;
+      const is_following = e.is_following;
+      console.log(PK);
+      const res = is_following
+        ? await userService.unfollowUser(PK)
+        : await userService.followUser(PK);
+      if (res.data.Success === "Now following") {
+        this.follower_list_keeper.forEach((traveller) => {
+          if (traveller.pk == PK) {
+            traveller.is_followed = true;
+            this.profile_data.nfollowers += 1;
+          }
+        });
+      } else if (res.data.Success === "Unfollowed") {
+        this.follower_list_keeper.forEach((traveller) => {
+          if (traveller.pk == PK) {
+            traveller.is_followed = false;
+            this.profile_data.nfollowers -= 1;
+          }
+        });
+      } else {
+        this.$$buefy.toast.open({
+          type: "is-danger",
+          message: res.data,
+        });
+      }
+      // Not nessecarily following but maybe also unfollow depending on the PK
     },
   },
   computed: {
@@ -337,9 +424,7 @@ export default {
     isFollowing() {
       if (!this.loading) {
         if (
-          this.profile_data.is_following
-            ? this.profile_data.is_following
-            : false
+          this.profile_data.is_followed ? this.profile_data.is_followed : false
         ) {
           return true;
         }

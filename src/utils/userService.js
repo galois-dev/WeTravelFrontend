@@ -24,18 +24,19 @@ export async function refreshAccess() {
     return {}
 }
 
+// TODO: fix
 export async function isAuthenticated() {
     const access = localStorage.getItem("token"), refresh = localStorage.getItem("user");
 
     if (access !== null && refresh !== null) {
-        return true
+        return true // <-- c-c-c-combo breaker!
         let _now = new Date().getTime()
         if (access !== null && (_now - store.state.auth.accessTimeset < ACCESS_TIMEOUT)) {
             // Set auth token because its lieky to be unset on reloads.
         }
-    } else return false
+    }
+    return false
 }
-
 
 export async function getSettings(id = -1) {
     const auth = await isAuthenticated()
@@ -112,6 +113,29 @@ export async function getProfile(id) {
     return data
 }
 
+
+/**
+ * https://github.com/MadsAW/WeTravel-backend/blob/master/docs/user/profile.md
+ * @param {Number} id 
+ * @param {description: string, interests: [Number], tastes: [Number]} data 
+ */
+export async function updateProfile(id, data) {
+    const auth = await isAuthenticated()
+    if (!auth) {
+        console.log("Settings Auth rejected");
+        return Promise.reject("Client must be logged in to access this feature")
+    }
+    const config = {
+        method: "post",
+        url: `/api/profile/${id}/`,
+        data: {
+            ...data
+        },
+    }
+    return await axios(config)
+}
+
+
 export async function uploadProfilePicture(file) {
     let fd = new FormData();
     fd.append("image", file);
@@ -142,7 +166,7 @@ export async function uploadProfilePicture(file) {
 export async function getFollowers(id) {
     const config = {
         method: "get",
-        url: `/api/follow/${id}/followers/`,
+        url: `/follow/${id}/followers/`,
         data: {
             pk: id
         }
@@ -153,7 +177,7 @@ export async function getFollowers(id) {
 export async function getFollowing(id) {
     const config = {
         method: "get",
-        url: `/api/follow/${id}/followers/`,
+        url: `/follow/${id}/following/`,
         data: {
             pk: id
         }
@@ -182,6 +206,7 @@ export async function unfollowUser(id) {
     };
     return await axios(config)
 }
+
 
 export async function logout() {
     // remove user from local storage to log user out
