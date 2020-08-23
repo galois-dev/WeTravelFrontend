@@ -45,6 +45,8 @@ $modal-z: 100;
 // Set your colors
 $primary: #db8653;
 $primary2: #bd774d;
+$primary_faded: rgba($primary, 0.1);
+$WT_gray0: #a7a7a7;
 $WT_gray1: #9b9b9b;
 $WT_gray2: #858b97;
 $WT_grayd: #959595;
@@ -252,4 +254,63 @@ body,
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+/* Vue calendar options */
+
+.vuecal__menu,
+.vuecal__cell-events-count {
+  background-color: $primary2;
+}
+.vuecal__title-bar {
+  background-color: $primary;
+}
+.vuecal__cell--today,
+.vuecal__cell--current {
+  background-color: rgba(240, 240, 255, 0.4);
+}
+.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+  border-color: $primary_faded;
+}
+.vuecal__cell--selected:before {
+  border-color: rgba($primary, 0.8);
+}
+/* Cells and buttons get highlighted when an event is dragged over it. */
+.vuecal__cell--highlighted:not(.vuecal__cell--has-splits),
+.vuecal__cell-split--highlighted {
+  background-color: rgba($primary, 0.1);
+  border-color: $WT_grayd;
+  // background-color: rgba(195, 255, 225, 0.5);
+}
+.vuecal__arrow.vuecal__arrow--highlighted,
+.vuecal__view-btn.vuecal__view-btn--highlighted {
+  background-color: rgba(136, 236, 191, 0.25);
+}
+
+.vuecal--month-view .vuecal__cell {
+  height: 80px;
+}
+
+.vuecal--month-view .vuecal__cell-content {
+  justify-content: flex-start;
+  height: 100%;
+  align-items: flex-end;
+}
+
+.vuecal--month-view .vuecal__cell-date {
+  padding: 4px;
+}
+.vuecal--month-view .vuecal__no-event {
+  display: none;
+}
+
+.vuecal__event--dragging {
+  background-color: rgba(60, 60, 60, 0.3);
+}
+.vuecal__event {
+  background-color: $WT_background;
+}
+
+.vuecal__cell {
+  background-color: rgba($WT_grayl, 0.5);
 }

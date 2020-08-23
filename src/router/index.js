@@ -5,7 +5,7 @@ import inspiration from "../views/inspiration"
 import settings from "../views/settings"
 import travelList from "../views/travelList"
 import travelDiary from "../views/travelDiary"
-import test from "../views/test.vue"
+import test2 from "../views/test2.vue"
 import landingPage from "../views/landingPage"
 import adventure from "../views/adventure"
 import exampleScroll from "../views/exampleScroll"
@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/test/",
     name: "test",
-    component: test,
+    component: test2,
   },
   {
     path: "/adventure/:pk/",

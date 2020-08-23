@@ -23,7 +23,7 @@ export async function getCalendarSerialsedAdventure(pk) {
   if (!pk) {
     throw error("no pk provided")
   }
-  const res = await axios.get("calendar/", {
+  const res = await axios.get(`/travels/${pk}/calendar`, {
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("token")
     },
@@ -38,7 +38,7 @@ export async function getTravelsByUser(pk) {
   }
   const config = {
     method: "get",
-    url: `/api/travels/user/${id}/`,
+    url: `/travels/user/${pk}/`,
   }
   return await axios(config)
 }

@@ -1,24 +1,34 @@
 <template>
   <div class="followerListRoot modal-card">
-    <div class="FLElement" v-for="(traveller, i) in travellers" :key="i">
-      <div class="IKHolder">
-        <div class="ProfilePicIcon" :style="profile_picture_style(i)" />
-      </div>
-      <div class="profiledata">
-        <div class="name-holder">{{ traveller.name }}</div>
-        <div class="ageLoc-holder">
-          {{ getAge(traveller.birthday) }}, {{ _flag(traveller.country) }}
+    <header class="modal-card-head">
+      <h4>
+        {{ this.$props.title }}
+      </h4>
+    </header>
+    <section class="modal-card-body" v-if="travellers.length > 0">
+      <div class="FLElement" v-for="(traveller, i) in travellers" :key="i">
+        <div class="IKHolder">
+          <div class="ProfilePicIcon" :style="profile_picture_style(i)" />
+        </div>
+        <div class="profiledata">
+          <div class="name-holder">{{ traveller.name }}</div>
+          <div class="ageLoc-holder">
+            {{ getAge(traveller.birthday) }}, {{ _flag(traveller.country) }}
+          </div>
+        </div>
+        <div class="actions">
+          <b-button
+            v-if="traveller.pk !== $store.state.UserSettings.pk"
+            type="is-primary is-light"
+            @click="emitHandleFollowSignal(traveller.pk, traveller.is_followed)"
+            >{{ traveller.is_followed ? "unfollow" : "follow" }}</b-button
+          >
         </div>
       </div>
-      <div class="actions">
-        <b-button
-          v-if="traveller.pk !== $store.state.UserSettings.pk"
-          type="is-primary is-light"
-          @click="emitHandleFollowSignal(traveller.pk, traveller.is_followed)"
-          >{{ traveller.is_followed ? "unfollow" : "follow" }}</b-button
-        >
-      </div>
-    </div>
+    </section>
+    <section class="modal-card-body" v-else>
+      <p class="centeredText">🤖 List not found try again later 🤖</p>
+    </section>
   </div>
 </template>
 
@@ -30,6 +40,10 @@ export default {
   props: {
     travellers: {
       type: Array,
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
   },

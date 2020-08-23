@@ -354,7 +354,7 @@ export default {
         this.next_follower_page = followers.data.next;
       }
       this.isFollowerModalActive = true;
-      this.openFollowerList(this.follower_list_keeper);
+      this.openFollowerList(this.follower_list_keeper, "Followers");
     },
     async getFollowingList() {
       const PK = this.$route.params.pk;
@@ -365,14 +365,15 @@ export default {
         this.next_follower_page = followers.data.next;
       }
       this.isFollowerModalActive = true;
-      this.openFollowerList(this.follower_list_keeper);
+      this.openFollowerList(this.follower_list_keeper, "Following");
     },
-    async openFollowerList(follows) {
+    async openFollowerList(follow, title) {
       this.$buefy.modal.open({
         parent: this,
         component: follower_list,
         props: {
-          travellers: follows,
+          travellers: follow,
+          title: title,
         },
         events: {
           update: this.handleFollowerListUpdate,

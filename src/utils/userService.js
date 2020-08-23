@@ -32,7 +32,7 @@ export async function isAuthenticated() {
         return true // <-- c-c-c-combo breaker!
         let _now = new Date().getTime()
         if (access !== null && (_now - store.state.auth.accessTimeset < ACCESS_TIMEOUT)) {
-            // Set auth token because its lieky to be unset on reloads.
+            // Set auth token because its likey to be unset on reloads.
         }
     }
     return false

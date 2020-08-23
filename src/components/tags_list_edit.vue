@@ -1,10 +1,10 @@
 <template>
-  <div class="modal-card is-primary" v-if="!loading">
+  <div :class="'modal-card is-primary '" v-if="!loading">
     <header class="modal-card-head">
       <h4 class="modal-card-title">{{ this.$props.typeOfTag }}</h4>
       <button type="button" class="delete" @click="$emit('close')" />
     </header>
-    <section class="modal-card-body">
+    <section :class="'modal-card-body'">
       <b-taginput
         v-model="selected_tags"
         :data="input_tags"
