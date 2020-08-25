@@ -9,6 +9,7 @@ import "animate.css"
 import axios from "axios"
 import VueScrollmagic from 'vue-scrollmagic'
 import './registerServiceWorker'
+import '@mdi/font/css/materialdesignicons.css'
 Vue.use(VueScrollmagic)
 Vue.use(Buefy)
 Vue.config.productionTip = true
@@ -41,6 +42,7 @@ new Vue({
   store,
   router,
   runtimeCompiler: true,
+  defaultIconPack: "mdi",
   render: h => h(App),
 }).$mount('#app')
 

@@ -1,13 +1,10 @@
 <template>
   <div class="Price">
-    <p
-      class="pricetags noselect"
-      v-for="i in [1, 2, 3, 4, 5]"
-      :key="i"
-      :style="dollarsign_style(i)"
-    >
-      $
-    </p>
+    <span v-for="i in [1, 2, 3, 4, 5]" :key="i" @click="handleSelect(i)">
+      <p class="pricetags noselect" :style="dollarsign_style(i)">
+        $
+      </p>
+    </span>
   </div>
 </template>
 <script>
@@ -45,7 +42,7 @@ export default {
       if (this.$props.size === "small") FS = "18px";
       if (this.$props.size === "medium") FS = "24px";
       if (this.$props.size === "large") FS = "30px";
-      if (i <= this.RATING) {
+      if (i <= this.$props.rating) {
         return {
           color: "#db8653", // ORANGE THIS BIT
           fontSize: FS,
@@ -55,6 +52,9 @@ export default {
         color: "#858b97", // Gray 1 or 2 idk, the standard non-primary text color
         fontSize: FS,
       };
+    },
+    handleSelect: function(i) {
+      this.$emit("selected", i);
     },
   },
 };

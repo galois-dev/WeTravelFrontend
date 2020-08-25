@@ -30,14 +30,27 @@
       </div>
       <div class="adventure-header-tabs">
         <b-tabs position="is-centered" class="block">
-          <b-tab-item label="Calendar" icon="calendar-today">
+          <b-tab-item label="Calendar" icon="calendar-today" v-if="!loading">
             <travel_book_calendar
               :IEvents="payload.experiences ? payload.experiences : []"
               @save_calendar="handleSaveCal"
             />
           </b-tab-item>
-          <b-tab-item label="Travel Book" icon="book">
-            <travel_book :ITravelBook="TBPayload" />
+          <b-tab-item
+            label="Travel Book"
+            icon="book"
+            v-if="!(TBPayload.pk === null || TBPayload.pk === undefined)"
+          >
+            <travel_book
+              :travel_start="TBPayload.travel_start"
+              :travel_end="TBPayload.travel_end"
+              :location="TBPayload.location"
+              :owner="TBPayload.owner"
+              :tags="TBPayload.tags"
+              :description="TBPayload.description"
+              :pricing="TBPayload.pricing"
+              :images="TBPayload.images"
+            />
           </b-tab-item>
         </b-tabs>
       </div>

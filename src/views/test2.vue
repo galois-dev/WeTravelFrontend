@@ -1,12 +1,13 @@
 <template>
   <div>
-    <rating_range :rating="3" />
+    <rating_range :rating="3" @selected="handleRatingChange" />
     <!-- <travel_book_calendar :IEvents="experiences" /> -->
   </div>
 </template>
 
 <script>
 import rating_range from "../components/rating_range";
+
 import {
   ExpTypeToEventType,
   EventTypeToExpType,
@@ -118,6 +119,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    handleRatingChange: function(i) {
+      console.log(i);
+    },
   },
 };
 </script>
