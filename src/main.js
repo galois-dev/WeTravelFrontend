@@ -8,6 +8,7 @@ import "./variables.scss"
 import "animate.css"
 import axios from "axios"
 import VueScrollmagic from 'vue-scrollmagic'
+import './registerServiceWorker'
 Vue.use(VueScrollmagic)
 Vue.use(Buefy)
 Vue.config.productionTip = true

@@ -7,6 +7,7 @@
         <span class="username-text-container">
           <div v-if="!loading">
             <h3 class="orangeText">{{ profile_data.name }}</h3>
+            <b-icon icon="verified"></b-icon>
           </div>
           <div v-else>
             <b-skeleton

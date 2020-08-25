@@ -69,7 +69,7 @@ export async function EventTypeToExpType(eventList) {
       res_em["restaurant"] = experience.restaurant.pk
     }
     // // Experience has activity data instead
-    if (experience.activity !== null) {
+    if (!(experience.activity === null || experience.activity === undefined)) {
       res_em["activity"] = experience.activity.pk
 
     }

@@ -1,18 +1,19 @@
 <template>
-  <div v-if="!loading">
-    <travel_book_calendar :IEvents="experiences" />
+  <div>
+    <rating_range :rating="3" />
+    <!-- <travel_book_calendar :IEvents="experiences" /> -->
   </div>
 </template>
 
 <script>
-import travel_book_calendar from "../components/travel_book_calendar";
+import rating_range from "../components/rating_range";
 import {
   ExpTypeToEventType,
   EventTypeToExpType,
 } from "../utils/experienceService";
 export default {
   components: {
-    travel_book_calendar,
+    rating_range,
   },
   // Base event type of vue-cal
   //   _eid:"14_1"

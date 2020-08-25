@@ -1,13 +1,12 @@
 <template>
-  <div class="Price">
-    <p
-      class="pricetags noselect"
+  <div class="Star">
+    <b-icon
+      class="Startags material-icons"
       v-for="i in [1, 2, 3, 4, 5]"
       :key="i"
-      :style="dollarsign_style(i)"
-    >
-      $
-    </p>
+      icon="grade"
+      :size="'is-' + size"
+    ></b-icon>
   </div>
 </template>
 <script>
@@ -41,19 +40,13 @@ export default {
   },
   methods: {
     dollarsign_style: function(i) {
-      let FS;
-      if (this.$props.size === "small") FS = "18px";
-      if (this.$props.size === "medium") FS = "24px";
-      if (this.$props.size === "large") FS = "30px";
       if (i <= this.RATING) {
         return {
           color: "#db8653", // ORANGE THIS BIT
-          fontSize: FS,
         };
       }
       return {
         color: "#858b97", // Gray 1 or 2 idk, the standard non-primary text color
-        fontSize: FS,
       };
     },
   },
@@ -61,14 +54,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Price {
+.Star {
   display: inline-flex;
 }
-.pricetags {
+.Startags {
   display: inline;
   margin: 5px;
   margin-bottom: 2px;
   margin-top: -4px;
+  font-size: 24px;
   font-weight: 600;
 }
 </style>
