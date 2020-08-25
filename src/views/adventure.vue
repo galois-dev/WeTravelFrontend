@@ -1,20 +1,66 @@
 <template>
-  <div class="adventure-root">
-    <h1>{{ adventureTitle }}</h1>
+  <div class="adventure-root" v-if="!loading">
+    <div class="adventure-header">
+      <div class="adventure-header-info">
+        <h2>{{ adventureTitle }}</h2>
+        <b-dropdown
+          class="adventure-header-options-button"
+          aria-role="list"
+          type="is-top-left"
+          paddingless
+        >
+          <b-button
+            class="button is-primary"
+            slot="trigger"
+            slot-scope="{ active }"
+            inverted
+            rounded
+          >
+            <span>Options</span>
+            <b-icon :icon="active ? 'menu-up' : 'menu-down'"></b-icon>
+          </b-button>
 
-    <calendarWeek :events="payload" v-if="!loading" />
+          <b-dropdown-item aria-role="listitem">Share</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">Change Dates</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">Get Support</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem"
+            >Delete Travel Plan</b-dropdown-item
+          >
+        </b-dropdown>
+      </div>
+      <div class="adventure-header-tabs">
+        <b-tabs position="is-centered" class="block">
+          <b-tab-item label="Calendar" icon="calendar-today">
+            <travel_book_calendar
+              :IEvents="payload.experiences ? payload.experiences : []"
+              @save_calendar="handleSaveCal"
+            />
+          </b-tab-item>
+          <b-tab-item label="Travel Book" icon="book">
+            <travel_book :ITravelBook="TBPayload" />
+          </b-tab-item>
+        </b-tabs>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import calendarWeek from "../components/calendarWeek";
+import travel_book from "../components/travel_book";
+import travel_book_calendar from "../components/travel_book_calendar";
 import * as adventureService from "../utils/adventureService";
+import {
+  EventTypeToExpType,
+  updateExperience,
+} from "../utils/experienceService";
+import axios from "axios";
 
 export default {
   name: "adventure",
   components: {
-    calendarWeek,
+    travel_book_calendar,
+    travel_book,
   },
   mounted() {
     this.loading = true;
@@ -22,8 +68,16 @@ export default {
       .getCalendarSerialsedAdventure(this.$route.params.pk)
       .then((data) => {
         console.log(data);
-        //this.payload = data;
+        this.payload = data.data;
+        this.adventureTitle = data.data.title;
       });
+
+    adventureService
+      .getTravelBookByAdventure(this.$route.params.pk)
+      .then((data) => {
+        this.TBPayload = data.data;
+      });
+
     this.loading = false;
   },
 
@@ -35,39 +89,34 @@ export default {
     return {
       loading: true,
       adventureTitle: "...",
-      payload: [
-        {
-          from: d,
-          to: d_p1,
-          title: "experience_test1",
-          banner: {
-            url:
-              "https://images.unsplash.com/photo-1542044896530-05d85be9b11a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80",
-            alt: "test picture",
-          },
-        },
-        {
-          from: d,
-          to: d_p2,
-          title: "experience_test2",
-          banner: {
-            url:
-              "https://images.unsplash.com/photo-1542044896530-05d85be9b11a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80",
-            alt: "test picture",
-          },
-        },
-        {
-          from: d_p1,
-          to: d_p3,
-          title: "experience_test3",
-          banner: {
-            url:
-              "https://images.unsplash.com/photo-1542044896530-05d85be9b11a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80",
-            alt: "test picture",
-          },
-        },
-      ],
+      payload: [],
+      TBPayload: {},
     };
+  },
+
+  methods: {
+    handleSaveCal: async function(eventsList) {
+      const Persistables = await EventTypeToExpType(eventsList);
+      const PK = this.$route.params.pk;
+      let SavePromises = [];
+      let Failed = false;
+      Persistables.forEach(async (event) => {
+        SavePromises.push(updateExperience(PK, event.pk, event));
+      });
+      if ((await Promise.all(SavePromises)) && SavePromises.length > 0) {
+        this.$buefy.toast.open({
+          message: `Saved!`,
+          duration: 1000,
+          type: "is-success",
+        });
+      } else if (SavePromises.length > 0) {
+        this.$buefy.toast.open({
+          message: `Not Saved!`,
+          duration: 3000,
+          type: "is-danger",
+        });
+      }
+    },
   },
 };
 </script>
@@ -76,5 +125,19 @@ export default {
 .adventure-root {
   height: 100%;
   margin-bottom: 100px;
+}
+.adventure-header-info {
+  h2 {
+    margin-left: 2rem;
+  }
+  margin-top: 0px;
+  display: inline-flex;
+  width: 100%;
+}
+
+.adventure-header-options-button {
+  margin: auto;
+  margin-right: 1rem;
+  margin-bottom: 0px;
 }
 </style>

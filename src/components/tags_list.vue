@@ -1,5 +1,8 @@
 <template>
-  <div :v-if="!loading && tags !== undefined" class="TLTags-root">
+  <div
+    :v-if="!loading && tags !== undefined && tags.length > 0"
+    class="TLTags-root"
+  >
     <span
       v-for="tag in tags"
       :key="tag.pk"
@@ -56,7 +59,7 @@ export default {
     },
     typeOfTag: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   data() {

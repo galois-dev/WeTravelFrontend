@@ -1,5 +1,5 @@
 <template>
-  <div class="TIL-root" v-if="Travellers !== undefined">
+  <div class="TIL-root" v-if="Travellers.length > 0">
     <template v-for="traveller in Travellers">
       <div
         :key="traveller.pk"
@@ -9,8 +9,8 @@
         <img
           :key="traveller.pk"
           style="margin-left:auto;margin-right:auto;width:28px;height:28px;"
-          :src="travller.url"
-          :alt="travller.alt"
+          :src="travller.image.url"
+          :alt="travller.image.alt"
         />
       </div>
     </template>
@@ -23,14 +23,15 @@ export default {
     travellers: [],
     parent_pk: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   data() {
-    let TRAVELLERS = this.$props.travellers;
-    return { Travellers: TRAVELLERS };
+    return { Travellers: [] };
   },
-  mounted() {},
+  mounted() {
+    this.Travellers = this.$props.travellers;
+  },
 };
 </script>
 

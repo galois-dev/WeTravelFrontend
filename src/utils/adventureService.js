@@ -32,6 +32,20 @@ export async function getCalendarSerialsedAdventure(pk) {
   return res
 }
 
+export async function getTravelBookByAdventure(pk) {
+  const res = await axios.get(`/travels/${pk}/travelbook/`, {
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("token")
+    },
+  })
+  return res
+}
+
+export async function updateTravelBookByAdventure(pk, tb) {
+  return await axios.post(`/travels/${pk}/travelbook/`, {
+    data: tb
+  })
+}
 export async function getTravelsByUser(pk) {
   if (!pk) {
     throw error("no pk provided")

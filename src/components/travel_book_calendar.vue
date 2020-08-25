@@ -1,5 +1,10 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!loading" class="TBC_container">
+    <div class="TBC_save" v-if="madeChanges">
+      <b-button @click="saveChanges" type="is-success" inverted rounded
+        >Save</b-button
+      >
+    </div>
     <vue-cal
       :time-from="5 * 60"
       :time-to="23 * 60"
@@ -11,7 +16,7 @@
       cell-contextmenu
       draggable="true"
       :cell-click-hold="false"
-      :drag-to-create-event="true"
+      :drag-to-create-event="false"
       @ready="logEvents('ready', $event)"
       @view-change="logEvents('view-change', $event)"
       @cell-click="logEvents('cell-click', $event)"
@@ -39,6 +44,14 @@
           </div>
           <img :src="event.image" />
         </div>
+        <div class="VC_custom_event day" v-if="view == 'day'">
+          <img class="day" :src="event.image" />
+          <div class="VC_event_descriptions day">
+            <span class="VC_event_type day">{{ event.type }}</span> ⁄
+            <span class="VC_title day">{{ event.title }}</span>
+            <div></div>
+          </div>
+        </div>
         <!-- Or if your events are editable: -->
         <!-- <div
           class="vuecal__event-title vuecal__event-title--edit"
@@ -55,6 +68,7 @@
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/drag-and-drop.js";
+import { ExpTypeToEventType } from "../utils/experienceService";
 
 export default {
   components: {
@@ -65,6 +79,14 @@ export default {
     IEvents: {
       type: Array,
       required: true,
+    },
+  },
+  watch: {
+    IEvents: function(n, o) {
+      console.log(n, o);
+      ExpTypeToEventType(n).then((res) => {
+        this.events = res;
+      });
     },
   },
   mounted() {
@@ -80,7 +102,7 @@ export default {
   },
   methods: {
     logEvents(event, data) {
-      console.log(event, data);
+      //console.log(event, data);
     },
     handleDropEvent(e) {
       this.madeChanges = true;
@@ -94,12 +116,23 @@ export default {
       this.madeChanges = false;
       this.$emit("save_calendar", this.events);
     },
+    deleteExperience(pk) {
+      this.$emit("delete_experience", pk);
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import "../variables";
-
+.TBC_container {
+  position: relative;
+}
+.TBC_save {
+  position: absolute;
+  margin: auto;
+  left: 5px;
+  top: 2px;
+}
 .VC_custom_event {
   width: 100%;
   display: inline-flex;
@@ -113,19 +146,34 @@ export default {
     border-radius: 5px;
     margin: 4px;
     right: 0;
+    &.day {
+      margin: auto;
+      right: 0;
+    }
   }
 }
 .VC_event_descriptions {
   display: block;
   margin: 4px;
+  &.day {
+    margin: auto;
+    left: 0;
+    top: 0;
+  }
 }
 .VC_event_type {
   color: $WT_grayd;
   font-size: 12px;
+  &.day {
+    font-size: 22px;
+  }
   font-weight: 600;
 }
 .VC_title {
   color: $WT_gray0;
+  &.day {
+    font-size: 22px;
+  }
   font-size: 14px;
   font-weight: 400;
 }

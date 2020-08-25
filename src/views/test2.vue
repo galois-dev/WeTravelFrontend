@@ -6,7 +6,10 @@
 
 <script>
 import travel_book_calendar from "../components/travel_book_calendar";
-import { ExpTypeToEventType } from "../utils/experienceService";
+import {
+  ExpTypeToEventType,
+  EventTypeToExpType,
+} from "../utils/experienceService";
 export default {
   components: {
     travel_book_calendar,
@@ -36,7 +39,7 @@ export default {
   // title:""
   // titleEditable:true
 
-  /* 
+  /*
     start: '2018-11-19 10:35',
     end: '2018-11-19 11:30',
     title: 'Doctor appointment'
@@ -61,6 +64,9 @@ export default {
     ExpTypeToEventType(EXP).then((res) => {
       this.experiences = res;
       this.loading = false;
+      EventTypeToExpType(res).then((e) => {
+        console.log(e);
+      });
     });
   },
   data() {
