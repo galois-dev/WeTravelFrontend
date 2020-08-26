@@ -1,0 +1,10 @@
+<svg id="Burger_Menu" data-name="Burger Menu" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <rect id="Rectangle_105" data-name="Rectangle 105" width="60" height="7" rx="3.5" transform="translate(10 13)" fill="#b1b1b1"/>
+  <rect id="Rectangle_106" data-name="Rectangle 106" width="60" height="7" rx="3.5" transform="translate(10 29)" fill="#b1b1b1"/>
+  <rect id="Rectangle_107" data-name="Rectangle 107" width="60" height="7" rx="3.5" transform="translate(10 45)" fill="#b1b1b1"/>
+  <rect id="Rectangle_222" data-name="Rectangle 222" width="60" height="7" rx="3.5" transform="translate(10 61)" fill="#b1b1b1"/>
+  <g id="Rectangle_223" data-name="Rectangle 223" fill="none" stroke="#000" stroke-width="1" opacity="0">
+    <rect width="80" height="80" stroke="none"/>
+    <rect x="0.5" y="0.5" width="79" height="79" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="643.984" height="562.345" viewBox="0 0 643.984 562.345">
+  <g id="Group_7" data-name="Group 7" transform="translate(-415.832 -150.871)">
+    <g id="Group_1" data-name="Group 1" transform="translate(-222.644 -36.868)">
+      <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(650.485 255.305) rotate(-5.643)" fill="none" stroke="#074f60" stroke-miterlimit="10" stroke-width="15">
+        <ellipse cx="287" cy="243" rx="287" ry="243" stroke="none"/>
+        <ellipse cx="287" cy="243" rx="279.5" ry="235.5" fill="none"/>
+      </g>
+      <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(638.644 305.463) rotate(-10.321)" fill="none" stroke="#074f60" stroke-miterlimit="10" stroke-width="15">
+        <ellipse cx="287.367" cy="218.2" rx="287.367" ry="218.2" stroke="none"/>
+        <ellipse cx="287.367" cy="218.2" rx="279.867" ry="210.7" fill="none"/>
+      </g>
+      <g id="Ellipse_3" data-name="Ellipse 3" transform="translate(653.596 304.925) rotate(-10.321)" fill="none" stroke="#074f60" stroke-miterlimit="10" stroke-width="15">
+        <ellipse cx="279.867" cy="218.2" rx="279.867" ry="218.2" stroke="none"/>
+        <ellipse cx="279.867" cy="218.2" rx="272.367" ry="210.7" fill="none"/>
+      </g>
+    </g>
+    <g id="Ellipse_4" data-name="Ellipse 4" transform="matrix(0.996, -0.087, 0.087, 0.996, 415.832, 203.165)" fill="none" stroke="#074f60" stroke-width="2">
+      <ellipse cx="300" cy="256" rx="300" ry="256" stroke="none"/>
+      <ellipse cx="300" cy="256" rx="299" ry="255" fill="none"/>
+    </g>
+    <g id="Ellipse_6" data-name="Ellipse 6" transform="translate(464.359 278.783) rotate(-9)" fill="none" stroke="#074f60" stroke-width="2">
+      <ellipse cx="249.5" cy="194.5" rx="249.5" ry="194.5" stroke="none"/>
+      <ellipse cx="249.5" cy="194.5" rx="248.5" ry="193.5" fill="none"/>
+    </g>
+    <g id="Group_4" data-name="Group 4">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="21" height="200" transform="translate(581 340)" fill="#074f60"/>
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="21" height="200" transform="translate(881 340)" fill="#074f60"/>
+      <path id="Subtraction_2" data-name="Subtraction 2" d="M343,217H330.654L182.5,37,34.347,217H22V196.218L182.5,0,343,196.217V217Z" transform="translate(559 334)" fill="#074f60"/>
+      <path id="Union_2" data-name="Union 2" d="M-1969,206h-21V12.758L-1979.5,0l10.5,12.757V206Z" transform="translate(2721 379)" fill="#074f60"/>
+      <path id="Union_1" data-name="Union 1" d="M124.5,53.337h0L114,40.5,103.5,53.335V21H0V0H228V21H124.5v32.34Z" transform="translate(627.5 284.5)" fill="#074f60"/>
+    </g>
+  </g>
+</svg>
