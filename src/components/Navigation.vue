@@ -147,6 +147,7 @@ ul {
     padding: 0;
   }
 }
+
 .profile-wrapper {
   @include phone {
     display: none;
@@ -190,8 +191,6 @@ ul {
 
 .navigation-bar {
   @include desktop {
-    transition: 0.5s;
-
     &.NAVshow {
       width: auto;
       background-color: $WT_background;

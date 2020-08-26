@@ -59,6 +59,7 @@ export async function EventTypeToExpType(eventList) {
     let res_em = {}
     const startDate = new Date(experience.start)
     const endDate = new Date(experience.end)
+    console.log(startDate, endDate);
     const calulatedDuration = new Date((endDate.getTime() - startDate.getTime())).getTime() / (3600 * 1000)
 
     res_em["time"] = new Date(experience.start) // getVueCalDateFromJSDate(startDate)

@@ -306,7 +306,6 @@ export default {
     calcAge(bday) {
       if (bday) return _calculateAge(bday);
     },
-    uploadChanges() {},
     async uploadProfilePic(e) {
       let res = await userService.uploadProfilePicture(this.imgFile);
       if (!res.data) {
@@ -416,6 +415,9 @@ export default {
         });
       }
       // Not nessecarily following but maybe also unfollow depending on the PK
+    },
+    async uploadChanges(e) {
+      console.log("PROFILE", e);
     },
   },
   computed: {

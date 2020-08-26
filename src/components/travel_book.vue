@@ -6,7 +6,7 @@
 
         <!-- saving and editing field -->
         <span
-          class="edit-field"
+          class="edit-field animate__animated animate__fadeInLeft"
           v-if="owner && !editing"
           @click="editing = !editing"
         >
@@ -15,50 +15,41 @@
             >launch</b-icon
           >
         </span>
-        <span v-else class="edit-field">
-          <span>
-            save
-            <b-icon class="material-icons" size="is-small" icon="lock"
-              >lock</b-icon
-            ></span
-          >
-          <span>
-            close
-            <b-icon class="material-icons" size="is-small" icon="errorOutline"
-              >errorOutline</b-icon
-            >
-          </span>
+        <span v-else class="edit-field animate__animated animate__fadeInRight">
+          <b-button
+            type="is-success"
+            icon-right="check"
+            size="is-small"
+            v-if="editing"
+            @click="handleSaveChanges"
+          />
+          <b-button
+            type="is-danger"
+            size="is-small"
+            icon-right="delete"
+            v-if="editing"
+            @click="editing = !editing"
+          />
         </span>
       </div>
       <div class="Time">
-        <template v-if="!editing">
+        <template
+          v-if="!editing"
+          class="fastAnimated animate__animated animate__fadeInUp"
+        >
           {{ prettyPrintTime(travel_start) }} -
           {{ prettyPrintTime(travel_end) }}
         </template>
         <template v-else>
-          <section>
-            <b-field label="Select a date" grouped>
-              <b-datepicker
-                v-model="travel_start_selected"
-                :mobile-native="false"
-              >
+          <div class="fastAnimated animate__animated animate__fadeInDown">
+            <b-field label="Select a start date" grouped>
+              <b-datepicker v-model="dates" :mobile-native="false" inline range>
                 <template v-slot:trigger>
                   <b-button icon-left="calendar-today" type="is-primary" />
                 </template>
               </b-datepicker>
-              {{ prettyPrintTime(travel_start_selected) }} </b-field
-            ><b-field label="Select a date" grouped>
-              <b-datepicker
-                v-model="travel_end_selected"
-                :mobile-native="false"
-              >
-                <template v-slot:trigger>
-                  <b-button icon-left="calendar-today" type="is-primary" />
-                </template>
-              </b-datepicker>
-              {{ prettyPrintTime(travel_end_selected) }}
             </b-field>
-          </section>
+          </div>
         </template>
       </div>
       <div class="Travellers" v-if="travellers && travellers.length > 0">
@@ -113,13 +104,15 @@
     </div>
     <div class="TBRHS">
       <div class="image-grid">
-        <img
-          v-for="(image, i) in images"
-          :src="image.url"
-          :key="i"
-          height="150"
-          width="150"
-        />
+        <div class="UploadSquare" v-for="(image, i) in images" :key="i">
+          <img height="150" width="150" :src="image.url" />
+          <b-button
+            type="is-danger"
+            icon-right="delete"
+            v-if="editing"
+            @click="handleRemoveImage(image.pk)"
+          />
+        </div>
         <div class="UploadSquare content has-text-centered">
           <p>
             <b-icon icon="upload" size="is-large"> </b-icon>
@@ -157,6 +150,7 @@ export default {
       editing: false,
       travel_start_selected: "",
       travel_end_selected: "",
+      dates: [],
       pricing_selected: -1,
       tags_selected: [],
     };
@@ -164,7 +158,9 @@ export default {
   mounted() {
     this.travel_start_selected = new Date(this.$props.travel_start);
     this.travel_end_selected = new Date(this.$props.travel_end);
-    this.pricing_selected = new Date(this.$props.pricing);
+    this.dates.push(this.travel_start_selected);
+    this.dates.push(this.travel_end_selected);
+    this.pricing_selected = this.$props.pricing;
     this.description_selected = this.$props.description;
     this.tags_selected = this.$props.tags;
 
@@ -179,19 +175,26 @@ export default {
     handlePricingSelect(i) {
       this.pricing_selected = i;
     },
+    handleRemoveImage(pk) {},
+    handleSaveChanges() {},
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../variables";
+
 $image_size: 150px;
 .travel-book-root {
-  grid-gap: 2rem;
-
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
   grid-template-areas: "lhs rhs";
+  @include tablet {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include desktop {
+    grid-template-columns: 1fr 2fr;
+  }
   @include mobile {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
@@ -224,13 +227,22 @@ $image_size: 150px;
   font-size: 20px;
   font-weight: 500;
   margin-top: -10px;
+  margin-bottom: 5px;
 }
 .edit-field {
+  animation-duration: 150ms;
   color: $primary;
   margin: auto;
   bottom: 0;
   margin-left: 10px;
   margin-bottom: 15px;
+  button {
+    margin: 2px;
+
+    & + button {
+      margin: 2px;
+    }
+  }
 }
 
 .UploadSquare {
@@ -245,12 +257,28 @@ $image_size: 150px;
   grid-template-rows: repeat(auto-fill, minmax($image_size, 1fr));
   display: grid;
   grid-gap: 0.1rem 0.1rem;
+  div {
+    justify-self: center;
+    position: relative;
+    align-self: stretch;
+    height: $image_size;
+    width: $image_size;
+  }
   img {
     display: block;
     max-width: $image_size;
     max-height: $image_size;
     width: auto;
     height: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    margin: auto;
   }
+}
+.fastAnimated {
+  animation-duration: 150ms;
 }
 </style>

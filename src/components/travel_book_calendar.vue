@@ -33,6 +33,7 @@
       @event-create="logEvents('event-create', $event)"
       @event-drag-create="logEvents('event-drag-create', $event)"
       @event-delete="logEvents('event-delete', $event)"
+      :on-event-click="onEventClick"
     >
       <template v-slot:event="{ event, view }" class="VC_event_container">
         <div class="VC_custom_event" v-if="view == 'week'">
@@ -98,6 +99,7 @@ export default {
       events: [],
       madeChanges: false,
       loading: true,
+      selectedEvent: {},
     };
   },
   methods: {
@@ -106,10 +108,29 @@ export default {
     },
     handleDropEvent(e) {
       this.madeChanges = true;
+      for (let i = 0; i < this.events.length; i++) {
+        const event = this.events[i];
+        if (event.pk === e.event.pk) {
+          const duration = event.end.getTime() - event.start.getTime();
+          this.events[i].start = e.newDate;
+          this.events[i].end = new Date(e.newDate.getTime() + duration);
+        }
+      }
       console.log(e);
+    },
+    onEventClick(event, e) {
+      console.log(event.pk);
     },
     handleDurationChangeEvent(e) {
       this.madeChanges = true;
+      for (let i = 0; i < this.events.length; i++) {
+        const event = this.events[i];
+        if (event.pk === e.event.pk) {
+          this.events[i].start = e.event.start;
+          this.events[i].duration =
+            (e.event.end.getTime() - e.event.start.getTime()) / (3600 * 1000);
+        }
+      }
       console.log(e);
     },
     saveChanges() {

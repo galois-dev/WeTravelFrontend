@@ -46,6 +46,7 @@
               :travel_end="TBPayload.travel_end"
               :location="TBPayload.location"
               :owner="TBPayload.owner"
+              :travellers="TBPayload.travellers"
               :tags="TBPayload.tags"
               :description="TBPayload.description"
               :pricing="TBPayload.pricing"
