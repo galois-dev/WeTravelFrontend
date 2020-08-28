@@ -114,10 +114,20 @@
           />
         </div>
         <div class="UploadSquare content has-text-centered">
-          <p>
-            <b-icon icon="upload" size="is-large"> </b-icon>
-          </p>
-          <p>Drop your files here or click to upload</p>
+          <b-upload
+            class="UploadSquare"
+            v-model="dropFiles"
+            multiple
+            drag-drop
+            expanded
+          >
+            <p>
+              <b-icon icon="upload" size="is-large"> </b-icon>
+            </p>
+            <p :style="{ fontSize: '14px' }">
+              Drop your images here or click to upload
+            </p>
+          </b-upload>
         </div>
       </div>
     </div>
@@ -153,6 +163,7 @@ export default {
       dates: [],
       pricing_selected: -1,
       tags_selected: [],
+      dropFiles: [],
     };
   },
   mounted() {

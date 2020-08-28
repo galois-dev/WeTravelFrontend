@@ -20,25 +20,15 @@
 
         <!-- --- Edit, save and report buttons --- -->
 
-        <span class="edit-button-container" v-if="isOwner">
-          <b-button
-            :type="edit_mode ? 'is-danger' : 'is-warning is-light'"
-            rounded
-            @click="edit_mode = !edit_mode"
-            >{{ edit_mode ? "Back" : "Edit" }}</b-button
-          >
-          <b-button
-            v-if="edit_mode"
-            type="is-success"
-            class="animate__animated animate__fadeInUp"
-            :style="{ transition: '0.5s' }"
-            rounded
-            @click="uploadChanges"
-            >Save</b-button
-          >
-        </span>
+        <edit_buttons
+          v-if="isOwner"
+          :editing="edit_mode"
+          @save="uploadChanges"
+          @close="edit_mode = !edit_mode"
+          @edit="edit_mode = !edit_mode"
+        />
+        <hr />
       </div>
-      <hr />
     </div>
 
     <!-- --- BIO CONTAINER --- -->
@@ -116,9 +106,10 @@
           <div class="interests-list">
             <span v-if="!loading">
               <tags_list
-                :tags="profile_data.interests"
+                :tags="inputInterests.length > 0 ? inputInterests : []"
                 :editing="edit_mode"
                 :typeOfTag="'Interest'"
+                @save="saveInterests"
               />
             </span>
             <span v-else>
@@ -134,9 +125,10 @@
           <div class="pallete-list">
             <span v-if="!loading">
               <tags_list
-                :tags="profile_data.tastes"
+                :tags="inputTastes.length > 0 ? inputTastes : []"
                 :editing="edit_mode"
                 :typeOfTag="'Taste'"
+                @save="saveTastes"
               />
             </span>
             <span v-else>
@@ -257,6 +249,7 @@ import travel_book_list from "../components/travel_book_list";
 import tags_list from "../components/tags_list";
 import flag from "country-code-emoji";
 import follower_list from "../components/follower_list";
+import edit_buttons from "../components/edit_buttons";
 
 const tagTypes = {
   Interest: "Interest",
@@ -273,7 +266,7 @@ function _calculateAge(birthday) {
 }
 
 export default {
-  components: { travel_book_list, tags_list },
+  components: { travel_book_list, tags_list, edit_buttons },
   data() {
     return {
       loading: true,
@@ -281,6 +274,8 @@ export default {
       isAmbassador: false,
       profile_data: {},
       inputDescription: "",
+      inputInterests: [],
+      inputTastes: [],
       imgFile: {},
       isFollowerModalActive: false,
       follower_list_keeper: [],
@@ -300,7 +295,9 @@ export default {
       }
       const res = await userService.getProfile(PK);
       this.profile_data = res;
-      this.inputDescription = res.description;
+      this.inputDescription = res.description ? res.description : [];
+      this.inputInterests = res.interests ? res.interests : [];
+      this.tastes = res.tastes;
       this.loading = false;
     },
     calcAge(bday) {
@@ -416,8 +413,25 @@ export default {
       }
       // Not nessecarily following but maybe also unfollow depending on the PK
     },
-    async uploadChanges(e) {
-      console.log("PROFILE", e);
+    saveInterests(e) {
+      this.inputInterests = e;
+    },
+    saveTastes(e) {
+      this.inputTastes = e;
+    },
+    async uploadChanges(event) {
+      // Profile data
+      const IMAP = this.inputInterests.map((I) => I.pk);
+      const TMAP = this.inputTastes.map((I) => I.pk);
+      const upload = {
+        description: this.inputDescription,
+        interests: IMAP,
+        tastes: TMAP,
+      };
+      const PK = this.$store.state.UserSettings.pk;
+      await userService.updateProfile(PK, upload);
+      this.edit_mode = false;
+      // TODO: Catch errors
     },
   },
   computed: {
@@ -599,10 +613,20 @@ hr {
 }
 .name-container {
   width: 100%;
+  position: relative;
   grid-area: name;
+  display: grid;
+  grid-template-columns: 1fr auto;
   div {
     display: inline-flex;
     justify-content: space-between;
+  }
+  hr {
+    position: absolute;
+    margin: auto;
+    bottom: 0;
+    width: 100%;
+    background-color: $primary;
   }
 }
 

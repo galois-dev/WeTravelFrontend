@@ -127,7 +127,7 @@ export async function updateProfile(id, data) {
     }
     const config = {
         method: "post",
-        url: `/api/profile/${id}/`,
+        url: `/profile/${id}/`,
         data: {
             ...data
         },

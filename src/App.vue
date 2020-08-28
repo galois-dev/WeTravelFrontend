@@ -100,7 +100,7 @@ body,
     &.NAVnothovered {
       transition: 0.5s;
 
-      grid-template-columns: $width-nav-hidden calc(100vw-$width-nav-hidden);
+      grid-template-columns: 0px 100vw;
       grid-template-rows: 100vh;
       grid-template-areas: "nav app";
     }
