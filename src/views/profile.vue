@@ -286,18 +286,23 @@ export default {
     await this.load();
   },
   methods: {
-    load: async function() {
+    async load() {
       const PK = this.$route.params.pk;
-      if (!PK && this.$store.state.UserSettings.pk) {
-        const res = await userService.getProfile(
-          this.$store.state.UserSettings.pk
-        );
+      var res = await userService.getProfile(PK).catch(async (e) => {
+        const res = await userService.getProfile(PK);
+        let data = res.data;
+        this._duplicateData(data);
+      });
+      if (res && res.data) {
+        let data = res.data;
+        this._duplicateData(data);
       }
-      const res = await userService.getProfile(PK);
-      this.profile_data = res;
-      this.inputDescription = res.description ? res.description : [];
-      this.inputInterests = res.interests ? res.interests : [];
-      this.tastes = res.tastes;
+    },
+    _duplicateData(data) {
+      this.profile_data = data;
+      this.inputDescription = data.description ? data.description : [];
+      this.inputInterests = data.interests ? data.interests : [];
+      this.tastes = data.tastes;
       this.loading = false;
     },
     calcAge(bday) {

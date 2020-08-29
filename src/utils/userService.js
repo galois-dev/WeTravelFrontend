@@ -47,21 +47,12 @@ export async function getSettings(id = -1) {
     }
     if (id === -1) {
         console.log("Getting settings data");
-        let _data
         const { data } = await axios.get("/settings/", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
-        }).catch(async err => {
-            await store.dispatch("refreshLogin")
-            const { data } = await axios.get("/settings/", {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token")
-                }
-            })
-            _data = data;
         })
-        if (!data && !_data) {
+        if (!data) {
 
             console.log("Settings Query rejected");
             return Promise.reject("Query to /api/settings/ failed")
@@ -85,32 +76,28 @@ export async function getSettings(id = -1) {
 }
 
 export async function getProfile(id) {
-    const auth = await isAuthenticated()
-    if (!auth) {
-        console.log("Settings Auth rejected");
-        return Promise.reject("Client must be logged in to access this feature")
-    }
-    let _data
-    const { data } = await axios.get("/profile/" + id + "/", {
+    let URL = `/profile/${id}/`
+    const config = {
+        method: "get",
+        url: URL,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         }
-    }).catch(async err => {
-        await store.dispatch("refreshLogin")
-        const { data } = await axios.get("/profile/" + id + "/", {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-        return data
+    }
+    let res = await axios.get(URL, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+
+        }
     })
-    if (!data) {
+    console.log(`config: ${JSON.stringify(config)}`);
+    if (!res) {
 
         console.log("Settings Query rejected");
         return Promise.reject("Query to api failed")
     }
 
-    return data
+    return res
 }
 
 

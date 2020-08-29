@@ -49,7 +49,7 @@ export default new Vuex.Store({
     async refreshAccess(state, { access }) {
       state.auth = { access: access, refresh: state.auth.refresh }
       axios.defaults.headers.common['Authorization'] = "Bearer " + access;
-      localStorage.setItem('token', access)
+      await localStorage.setItem('token', access)
 
     },
     async logout(state) {

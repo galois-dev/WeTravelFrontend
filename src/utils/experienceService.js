@@ -4,9 +4,8 @@ import axios from "axios"
 export async function getExperience(CalPK, pk) { }
 export async function createExperience(CalPK, pk, event) { }
 export async function updateExperience(CalPK, pk, event) {
-  return axios.post(`travels/${CalPK}/calendar/${pk}/`, {
-    data: event,
-  })
+  return axios.post(`travels/${CalPK}/calendar/${pk}/`, event,
+  )
 }
 export async function deleteExperience(CalPK, pk) {
   return axios.delete(`travels/${CalPK}/calendar/${pk}/`)

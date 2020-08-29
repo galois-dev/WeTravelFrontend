@@ -10,6 +10,7 @@ import axios from "axios"
 import VueScrollmagic from 'vue-scrollmagic'
 import './registerServiceWorker'
 import '@mdi/font/css/materialdesignicons.css'
+
 Vue.use(VueScrollmagic)
 Vue.use(Buefy)
 Vue.config.productionTip = true
@@ -41,6 +42,19 @@ axios.defaults.withCredentials = false;
 //   }
 //   return err
 // })
+axios.interceptors.response.use(null, async (error) => {
+  // if (error.config && error.response && error.response.status === 401) {
+  if (error.config && error) { // TODO: implement error handling that reflects backend.
+    await store.dispatch("refreshLogin").then(async () => {
+      error.config["headers"] = { "Authorization": "Bearer " + localStorage.getItem("token") }
+      // Here, the request data will be double stringified with qs.stringify,
+      // potentially leading to 422 responses or similar.
+      return await axios.request(error.config);
+    });
+  }
+
+  return Promise.reject(error);
+});
 new Vue({
   store,
   router,

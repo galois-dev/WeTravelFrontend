@@ -222,6 +222,9 @@ export default {
     font-size: 11px;
   }
   color: $WT_gray2;
+  @include desktop {
+    font-size: 20px;
+  }
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 5px;
