@@ -315,3 +315,22 @@ body,
 .vuecal__cell {
   background-color: rgba($WT_grayl, 0.5);
 }
+
+section.tab-content {
+  padding: 0px !important;
+}
+.b-tabs .tabs {
+  padding: 0px !important;
+}
+
+.vuecal__flex.vuecal__weekdays-headings {
+  @include mobile {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+.vuecal__time-column {
+  @include mobile {
+    width: 0px !important;
+  }
+}

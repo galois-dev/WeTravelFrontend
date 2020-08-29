@@ -115,7 +115,7 @@
         </div>
         <div class="UploadSquare content has-text-centered">
           <b-upload
-            class="UploadSquare"
+            class="ImageSquare"
             v-model="dropFiles"
             multiple
             drag-drop
@@ -178,7 +178,6 @@ export default {
     this.loading = false;
   },
   methods: {
-    gotoProfile(pk) {},
     prettyPrintTime(ISOString) {
       const date = new Date(ISOString);
       return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
@@ -257,30 +256,14 @@ $image_size: 150px;
 }
 
 .UploadSquare {
+  justify-self: end;
+  align-self: end;
+  position: relative;
   height: $image_size;
   width: $image_size;
   background-color: rgba($WT_grayd, 0.3);
   border-radius: $border-radius-xs;
-}
-
-.image-grid {
-  grid-template-columns: repeat(auto-fill, minmax($image_size, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax($image_size, 1fr));
-  display: grid;
-  grid-gap: 0.1rem 0.1rem;
-  div {
-    justify-self: center;
-    position: relative;
-    align-self: stretch;
-    height: $image_size;
-    width: $image_size;
-  }
   img {
-    display: block;
-    max-width: $image_size;
-    max-height: $image_size;
-    width: auto;
-    height: auto;
     left: 0;
     right: 0;
     top: 0;
@@ -288,6 +271,28 @@ $image_size: 150px;
     position: absolute;
     margin: auto;
   }
+}
+
+.imageSquare {
+  height: auto;
+  width: auto;
+  background-color: rgba($WT_grayd, 0.3);
+  border-radius: $border-radius-xs;
+  display: block;
+}
+
+.image-grid {
+  grid-template-columns: repeat(auto-fit, minmax($image_size, $image_size));
+
+  display: grid;
+  margin: auto;
+  margin-right: 0;
+  width: auto;
+  grid-gap: 1.1rem 1.1rem;
+  justify-content: end;
+  justify-items: end;
+  align-content: end;
+  align-items: end;
 }
 .fastAnimated {
   animation-duration: 150ms;

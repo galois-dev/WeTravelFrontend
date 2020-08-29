@@ -17,6 +17,9 @@ Vue.config.productionTip = true
 axios.defaults.baseURL = "https://wetravelplanner.herokuapp.com/api/"
 axios.defaults.withCredentials = false;
 
+
+
+
 // axios.interceptors.response.use(reponse => {
 //   return reponse
 // }, err => {

@@ -29,8 +29,13 @@
         </b-dropdown>
       </div>
       <div class="adventure-header-tabs">
-        <b-tabs position="is-centered" class="block">
-          <b-tab-item label="Calendar" icon="calendar-today" v-if="!loading">
+        <b-tabs position="is-centered" expanded>
+          <b-tab-item
+            expanded
+            label="Calendar"
+            icon="calendar-today"
+            v-if="!loading"
+          >
             <travel_book_calendar
               :IEvents="payload.experiences ? payload.experiences : []"
               @save_calendar="handleSaveCal"
@@ -136,9 +141,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../variables";
+
 .adventure-root {
   height: 100%;
-  margin-bottom: 100px;
 }
 .adventure-header-info {
   h2 {

@@ -24,7 +24,7 @@
           v-if="isOwner"
           :editing="edit_mode"
           @save="uploadChanges"
-          @close="edit_mode = !edit_mode"
+          @close="handleCancel"
           @edit="edit_mode = !edit_mode"
         />
         <hr />
@@ -413,6 +413,10 @@ export default {
       }
       // Not nessecarily following but maybe also unfollow depending on the PK
     },
+    handleCancel() {
+      this.load();
+      this.edit_mode = false;
+    },
     saveInterests(e) {
       this.inputInterests = e;
     },
@@ -429,7 +433,15 @@ export default {
         tastes: TMAP,
       };
       const PK = this.$store.state.UserSettings.pk;
-      await userService.updateProfile(PK, upload);
+      await userService.updateProfile(PK, upload).catch((e) => {
+        this.load();
+        this.$buefy.toast.open({
+          type: "is-danger",
+          message: `profile upload error: ${e}`,
+        });
+        return null;
+      });
+      this.profile_data.description = this.inputDescription;
       this.edit_mode = false;
       // TODO: Catch errors
     },
@@ -473,12 +485,12 @@ export default {
 <style lang="scss" scoped>
 @import "../variables";
 .profile-root {
-  @include tablet {
-    margin: $standard_page_margins;
-  }
-  @include desktop {
-    margin: $standard_page_margins;
-  }
+  // @include tablet {
+  //   margin: $standard_page_margins;
+  // }
+  // @include desktop {
+  //   margin: $standard_page_margins;
+  // }
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto 1fr auto;

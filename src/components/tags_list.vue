@@ -11,9 +11,11 @@
     >
       {{ tag.name }}
     </span>
-    <span v-if="editing" class="edit-button">
-      <b-button rounded size="is-small" @click="editTags">+</b-button>
-    </span>
+    <b-tooltip label="add" position="is-top">
+      <span v-if="editing" class="edit-button">
+        <b-button rounded size="is-small" @click="editTags">+</b-button>
+      </span>
+    </b-tooltip>
   </div>
 </template>
 

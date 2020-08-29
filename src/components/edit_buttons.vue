@@ -53,19 +53,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../variables";
+$margins: 2px;
 .edit_root {
   animation-duration: 150ms;
   color: $primary;
   margin: auto;
   bottom: 0;
-  margin-bottom: 0px;
-  margin-right: 0px;
+  margin-bottom: $margins;
+  margin-right: $margins;
   display: inline-flex;
   button {
     margin: 2px;
-
+    margin-bottom: -6px;
     & + button {
       margin: 2px;
+      margin-bottom: -6px;
     }
   }
 }

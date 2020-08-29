@@ -35,24 +35,49 @@
       @event-delete="logEvents('event-delete', $event)"
       :on-event-click="onEventClick"
     >
-      <template v-slot:event="{ event, view }" class="VC_event_container">
-        <div class="VC_custom_event" v-if="view == 'week'">
-          <!-- <div class="vuecal__event-title" v-if="view" v-html="event.title" /> -->
-          <div class="VC_event_descriptions">
+      <template
+        v-slot:event="{ event, view }"
+        class="VC_event_container"
+        :style="eventTypeColor(event.type)"
+      >
+        <div
+          class="VC_custom_event_week"
+          v-if="view == 'week'"
+          :style="eventTypeColor(event.type)"
+        >
+          <div
+            class="vuecal__event-title VC_custom_title"
+            v-html="event.title"
+          />
+
+          <div class="vuecal__event-time VC_custom_time">
+            <!-- Using Vue Cal injected Date prototypes -->
+            {{ prettyTime(event.start) }} - {{ prettyTime(event.end) }}
+          </div>
+          <div class="vuecal_event-time VC_custom_icon">
+            <FilmstripIcon v-if="event.type.toLowerCase() === 'activity'" />
+            <SilverwareIcon
+              :size="48"
+              v-if="String(event.type).toLowerCase() === 'restaurant'"
+            />
+          </div>
+        </div>
+        <!-- <div class="vuecal__event-title" v-if="view" v-html="event.title" /> -->
+        <!-- <div class="VC_event_descriptions">
             <div class="VC_event_type">{{ event.type }}</div>
 
             <div class="VC_title">{{ event.title }}</div>
-          </div>
-          <img :src="event.image" />
-        </div>
-        <div class="VC_custom_event day" v-if="view == 'day'">
+          </div> -->
+        <!-- <img :src="event.image" />
+        </div> -->
+        <!-- <div class="VC_custom_event_week day" v-if="view == 'day'">
           <img class="day" :src="event.image" />
           <div class="VC_event_descriptions day">
             <span class="VC_event_type day">{{ event.type }}</span> ⁄
             <span class="VC_title day">{{ event.title }}</span>
             <div></div>
           </div>
-        </div>
+        </div> -->
         <!-- Or if your events are editable: -->
         <!-- <div
           class="vuecal__event-title vuecal__event-title--edit"
@@ -70,10 +95,16 @@ import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 import "vue-cal/dist/drag-and-drop.js";
 import { ExpTypeToEventType } from "../utils/experienceService";
+import "@mdi/font/css/materialdesignicons.css";
+import "vue-material-design-icons/styles.css";
+import FilmstripIcon from "vue-material-design-icons/Filmstrip.vue";
+import SilverwareIcon from "vue-material-design-icons/Silverware.vue";
 
 export default {
   components: {
     VueCal,
+    FilmstripIcon,
+    SilverwareIcon,
   },
   props: {
     // Initial events (as they 'were' from the database)
@@ -140,11 +171,87 @@ export default {
     deleteExperience(pk) {
       this.$emit("delete_experience", pk);
     },
+    prettyTime(str_date) {
+      const jsDate = new Date(str_date);
+      if (jsDate) {
+        return `${
+          jsDate.getHours() < 10 ? "0" + jsDate.getHours() : jsDate.getHours()
+        }:${jsDate.getMinutes() === 0 ? "00" : jsDate.getMinutes()}`;
+      } else {
+        return "--:--";
+      }
+    },
+    getIconType(type) {
+      let icon;
+
+      if (type === "Restaurant") {
+        icon = "restaurantMenu";
+      }
+      if (type === "activity") {
+        icon = "movieFilter";
+      }
+      return icon;
+    },
+    eventTypeColor(type) {
+      let color;
+      if (type === "Restaurant") {
+        color = "#8fe1ff";
+      }
+      if (type === "activity") {
+        color = "#ff8f8f";
+      }
+      return { backgroundColor: color };
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import "../variables";
+
+// ==> Custom event styles  <==
+.VC_custom_time {
+  margin-top: -10px;
+  color: $WT_gray2;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 0.8rem;
+  letter-spacing: 0.02rem;
+}
+.VC_custom_title {
+  @include mobile {
+    font-size: 11px;
+  }
+  color: $WT_gray2;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  padding-top: 2px;
+  line-height: 0.7rem;
+}
+.VC_custom_icon {
+  $VC_icon_size: 48px;
+
+  @include mobile {
+    $VC_icon_size: 32px;
+  }
+  width: 100%;
+  span {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    svg {
+      width: $VC_icon_size;
+      height: $VC_icon_size;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+  }
+}
+
 .TBC_container {
   position: relative;
 }
@@ -154,9 +261,10 @@ export default {
   left: 5px;
   top: 2px;
 }
-.VC_custom_event {
+.VC_custom_event_week {
   width: 100%;
-  display: inline-flex;
+  height: 100%;
+  margin: 0;
   span {
     width: 100%;
   }
@@ -197,6 +305,9 @@ export default {
   }
   font-size: 14px;
   font-weight: 400;
+}
+.vuecal__event-time {
+  margin-top: -5px;
 }
 </style>
 

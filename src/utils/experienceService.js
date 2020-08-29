@@ -9,9 +9,7 @@ export async function updateExperience(CalPK, pk, event) {
   })
 }
 export async function deleteExperience(CalPK, pk) {
-  return axios.delete(`travels/${CalPK}/calendar/${pk}/`, {
-    data: event,
-  })
+  return axios.delete(`travels/${CalPK}/calendar/${pk}/`)
 }
 
 // From our wetravel proprietary experience type to 
