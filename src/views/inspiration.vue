@@ -2,32 +2,26 @@
   <div>
     <h3>Discover the World</h3>
     <hr />
-    <section>
+    <section id="search-outer">
       <b-input :placeholder="searchLabel" v-model="queryString" rounded>
       </b-input>
-      <span class="IW_search-button">
-        <b-button type="is-primary" @click="getBySettings">{{
-          searchLabel
-        }}</b-button>
-      </span>
     </section>
-    <section id="checkboxes-outer">
-      <div class="checkboxes-wrapper">
-        <b-checkbox v-model="cbProfiles" native-value="Profiles">
-          Profiles
-        </b-checkbox>
-        <b-checkbox v-model="cbPlaces" native-value="Places">
-          Places
-        </b-checkbox>
-        <b-checkbox v-model="cbTrips" native-value="Trips">
-          Trips
-        </b-checkbox>
-        <b-checkbox v-model="cbActivities" native-value="Activities">
-          Activities
-        </b-checkbox>
-        <b-checkbox v-model="cbFollowing" native-value="Following">
-          Following
-        </b-checkbox>
+    <section id="tabs-outer">
+      <div class="tabs-wrapper">
+        <b-tabs position="is-centered" expanded>
+          <b-tab-item expanded label="Profiles" v-if="!loading">
+            <feed_list_profiles />
+          </b-tab-item>
+          <b-tab-item expanded label="Trips" v-if="!loading">
+            <feed_list_trips />
+          </b-tab-item>
+          <b-tab-item expanded label="Activities" v-if="!loading">
+            <feed_list_activities />
+          </b-tab-item>
+          <b-tab-item expanded label="Restaurants" v-if="!loading">
+            <feed_list_restaurants />
+          </b-tab-item>
+        </b-tabs>
       </div>
     </section>
   </div>
@@ -36,7 +30,17 @@
 <script>
 import { getAdventuresByMode } from "../utils/adventureService";
 import { inspireView, buildComputedProperty } from "../utils/translations";
+import feed_list_restaurants from "../components/feed_list_restaurants";
+import feed_list_profiles from "../components/feed_list_profiles";
+import feed_list_activities from "../components/feed_list_activities";
+import feed_list_trips from "../components/feed_list_trips";
 export default {
+  components: {
+    feed_list_restaurants,
+    feed_list_profiles,
+    feed_list_trips,
+    feed_list_activities,
+  },
   data: function() {
     return {
       queryString: "",
@@ -45,6 +49,7 @@ export default {
       cbTrips: false,
       cbActivities: false,
       cbFollowing: false,
+      loading: false,
     };
   },
   computed: {
@@ -81,18 +86,10 @@ h3 {
   color: $primary;
 }
 
-#checkboxes-outer {
-}
-
-.checkboxes-wrapper {
-  display: grid;
-  justify-self: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  width: 100%;
-
+.tabs-wrapper {
+  margin-top: 1.2rem;
+  min-height: 100vh;
   .b-checkbox {
-    margin-left: 1rem;
     margin-top: 0.5rem;
   }
 }

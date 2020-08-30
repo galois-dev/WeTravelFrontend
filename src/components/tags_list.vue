@@ -50,10 +50,14 @@ function LightenDarkenColor(col, amt) {
 }
 
 export default {
+  name: "tags_list",
   props: {
     tags: {
       type: Array,
-      required: true,
+      required: false,
+      default: () => {
+        return [];
+      },
     },
     editing: {
       type: Boolean,
@@ -117,6 +121,8 @@ export default {
 <style lang="scss" scoped>
 @import "../variables";
 .TLtag {
+  font-family: "Unna";
+
   color: $dark;
   font-size: 18px;
   font-weight: 500;

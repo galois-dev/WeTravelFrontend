@@ -55,11 +55,26 @@
             {{ prettyTime(event.start) }} - {{ prettyTime(event.end) }}
           </div>
           <div class="vuecal_event-time VC_custom_icon">
-            <FilmstripIcon v-if="event.type.toLowerCase() === 'activity'" />
-            <SilverwareIcon
-              :size="48"
-              v-if="String(event.type).toLowerCase() === 'restaurant'"
-            />
+            <template v-if="event.type.toLowerCase() === 'activity'">
+              <FilmstripIcon />
+              <p>
+                {{
+                  event.description != "" || event.description != null
+                    ? event.description
+                    : event.activity.description
+                }}
+              </p>
+            </template>
+            <template v-if="String(event.type).toLowerCase() === 'restaurant'">
+              <SilverwareIcon :size="48" />
+              <p>
+                {{
+                  event.content !== null
+                    ? event.content
+                    : event.restaurant.description
+                }}
+              </p>
+            </template>
           </div>
         </div>
         <!-- <div class="vuecal__event-title" v-if="view" v-html="event.title" /> -->
@@ -210,6 +225,8 @@ export default {
 
 // ==> Custom event styles  <==
 .VC_custom_time {
+  font-family: "Unna";
+
   margin-top: -10px;
   color: $WT_gray2;
   font-size: 12px;
@@ -218,14 +235,16 @@ export default {
   letter-spacing: 0.02rem;
 }
 .VC_custom_title {
+  font-family: "Unna";
+
   @include mobile {
-    font-size: 11px;
+    font-size: 0.8rem;
   }
   color: $WT_gray2;
   @include desktop {
-    font-size: 20px;
+    font-size: 1.2rem;
   }
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 400;
   margin-bottom: 5px;
   padding-top: 2px;
@@ -252,6 +271,13 @@ export default {
       bottom: 0;
       margin: auto;
     }
+  }
+  p {
+    font-family: "Unna";
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.1rem;
   }
 }
 

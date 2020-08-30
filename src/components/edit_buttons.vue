@@ -64,10 +64,11 @@ $margins: 2px;
   display: inline-flex;
   button {
     margin: 2px;
-    margin-bottom: -6px;
     & + button {
       margin: 2px;
-      margin-bottom: -6px;
+    }
+    @include phone {
+      margin-bottom: 0px;
     }
   }
 }

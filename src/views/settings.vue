@@ -1,116 +1,114 @@
 <template>
   <div class="window-wrapper">
-    <section>
-      <b-tabs type="is-boxed">
-        <b-tab-item label="Account" icon="google-photos">
-          <div class="SFormWrapper">
-            <div class="SField">
-              <div class="SLabel">
-                <p>{{ firstNameLabel }}</p>
-              </div>
-              <div class="SInput">
-                <b-field :label="NameSubLabel">
-                  <b-input v-model="firstname"></b-input>
-                </b-field>
-              </div>
+    <b-tabs position="is-centered" expanded>
+      <b-tab-item label="Account">
+        <div class="SFormWrapper">
+          <div class="SField">
+            <div class="SLabel">
+              <p>{{ firstNameLabel }}</p>
             </div>
-
-            <div class="SField">
-              <div class="SLabel">
-                <p>{{ lastNameLabel }}</p>
-              </div>
-              <div class="SInput">
-                <b-field :label="lastNameSubLabel">
-                  <b-input v-model="lastname"></b-input>
-                </b-field>
-              </div>
-            </div>
-
-            <div class="SField">
-              <div class="SLabel">
-                <p>{{ emailLabel }}</p>
-              </div>
-              <div class="SInput">
-                <b-field :label="emailSubLabel">
-                  <b-input v-model="email"></b-input>
-                </b-field>
-              </div>
-            </div>
-
-            <div class="SField">
-              <div class="SLabel">
-                <p>{{ countryLabel }}</p>
-              </div>
-              <div class="SInput">
-                <b-select
-                  placeholder="Country"
-                  icon="earth"
-                  v-model="country"
-                  :selected="country"
-                >
-                  <option
-                    v-for="option in Countries"
-                    :value="option['code']"
-                    :key="option['code']"
-                    :selected="country"
-                    >{{ option["code"] }}</option
-                  >
-                </b-select>
-                <p>{{ _flag(country) }}</p>
-              </div>
-            </div>
-
-            <div class="SField">
-              <div class="SLabel">
-                <p>{{ genderLabel }}</p>
-              </div>
-              <div class="SInput">
-                <b-select :placeholder="selectGender" v-model="gender">
-                  <option value="m" :selected="'m' == gender ? true : false">{{
-                    genderMale
-                  }}</option>
-                  <option value="f" :selected="'f' == gender ? true : false">{{
-                    genderFemale
-                  }}</option>
-                  <option value="a" :selected="'a' == gender ? true : false">{{
-                    genderOther
-                  }}</option>
-                </b-select>
-                <p>{{ gender }}</p>
-              </div>
-            </div>
-
-            <div class="SField">
-              <div class="SLabel"><p>TEST REFRESH LABEL</p></div>
-              <div class="SInput">
-                <b-button rounded @click="getState()">Refresh</b-button>
-              </div>
-            </div>
-
-            <div class="SField">
-              <div class="SLabel"><p>TEST UPDATE LABEL</p></div>
-              <div class="SInput">
-                <b-button rounded @click="getState()">Update</b-button>
-              </div>
+            <div class="SInput">
+              <b-field :label="NameSubLabel">
+                <b-input v-model="firstname"></b-input>
+              </b-field>
             </div>
           </div>
-        </b-tab-item>
 
-        <b-tab-item :label="labelPassword" icon="google-photos">
-          <h1>
-            Work In Progress.
-          </h1>
-          <b-button type="is-primary">Save</b-button>
-        </b-tab-item>
+          <div class="SField">
+            <div class="SLabel">
+              <p>{{ lastNameLabel }}</p>
+            </div>
+            <div class="SInput">
+              <b-field :label="lastNameSubLabel">
+                <b-input v-model="lastname"></b-input>
+              </b-field>
+            </div>
+          </div>
 
-        <b-tab-item :label="labelHelp" icon="google-photos">
-          <h4>
-            Contact support or read the user guide
-          </h4>
-          <p></p>
-        </b-tab-item>
-      </b-tabs>
-    </section>
+          <div class="SField">
+            <div class="SLabel">
+              <p>{{ emailLabel }}</p>
+            </div>
+            <div class="SInput">
+              <b-field :label="emailSubLabel">
+                <b-input v-model="email"></b-input>
+              </b-field>
+            </div>
+          </div>
+
+          <div class="SField">
+            <div class="SLabel">
+              <p>{{ countryLabel }}</p>
+            </div>
+            <div class="SInput">
+              <b-select
+                placeholder="Country"
+                icon="earth"
+                v-model="country"
+                :selected="country"
+              >
+                <option
+                  v-for="option in Countries"
+                  :value="option['code']"
+                  :key="option['code']"
+                  :selected="country"
+                  >{{ option["code"] }}</option
+                >
+              </b-select>
+              <p>{{ _flag(country) }}</p>
+            </div>
+          </div>
+
+          <div class="SField">
+            <div class="SLabel">
+              <p>{{ genderLabel }}</p>
+            </div>
+            <div class="SInput">
+              <b-select :placeholder="selectGender" v-model="gender">
+                <option value="m" :selected="'m' == gender ? true : false">{{
+                  genderMale
+                }}</option>
+                <option value="f" :selected="'f' == gender ? true : false">{{
+                  genderFemale
+                }}</option>
+                <option value="a" :selected="'a' == gender ? true : false">{{
+                  genderOther
+                }}</option>
+              </b-select>
+              <p>{{ gender }}</p>
+            </div>
+          </div>
+
+          <div class="SField">
+            <div class="SLabel"><p>TEST REFRESH LABEL</p></div>
+            <div class="SInput">
+              <b-button rounded @click="getState()">Refresh</b-button>
+            </div>
+          </div>
+
+          <div class="SField">
+            <div class="SLabel"><p>TEST UPDATE LABEL</p></div>
+            <div class="SInput">
+              <b-button rounded @click="getState()">Update</b-button>
+            </div>
+          </div>
+        </div>
+      </b-tab-item>
+
+      <b-tab-item :label="labelPassword">
+        <h1>
+          Work In Progress.
+        </h1>
+        <b-button type="is-primary">Save</b-button>
+      </b-tab-item>
+
+      <b-tab-item :label="labelHelp">
+        <h4>
+          Contact support or read the user guide
+        </h4>
+        <p></p>
+      </b-tab-item>
+    </b-tabs>
   </div>
 </template>
 

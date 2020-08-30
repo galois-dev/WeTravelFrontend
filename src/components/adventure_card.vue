@@ -243,6 +243,7 @@ img {
   padding-top: 10px;
 }
 .location {
+  font-family: "Unna";
   position: relative;
   p {
     margin: auto;

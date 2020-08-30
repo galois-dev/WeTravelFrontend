@@ -200,10 +200,10 @@ $image_size: 150px;
   grid-gap: 2rem;
   grid-template-areas: "lhs rhs";
   @include tablet {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
   }
   @include desktop {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: auto 1fr;
   }
   @include mobile {
     grid-template-columns: 1fr;
@@ -213,6 +213,12 @@ $image_size: 150px;
   }
 }
 .TBLHS {
+  @include desktop {
+    max-width: 564px;
+  }
+  @include tablet {
+    max-width: 564px;
+  }
   grid-area: "lhs";
 }
 .TBRHS {
@@ -221,7 +227,6 @@ $image_size: 150px;
 
 .Location {
   display: inline-flex;
-  margin-top: -18px;
   h3 {
     font-weight: 500;
     margin: 0;

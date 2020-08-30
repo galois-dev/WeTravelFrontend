@@ -81,13 +81,17 @@ export default {
 <style lang="scss" scoped>
 @import "../variables";
 $width: 500px;
+
+@include mobile {
+  $width: 200px;
+}
 $height: 500px;
 $picturegrid_gap: 4px;
 
 .TBList-root {
   @include phone {
     min-width: 0px;
-    max-width: 100vw;
+    max-width: 95%;
   }
   min-width: $width;
 }
@@ -99,10 +103,10 @@ $picturegrid_gap: 4px;
     width: 100%;
   }
   @include phone {
-    max-width: 100vw;
+    max-width: 95%;
   }
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
 }
 .TB-element {
   justify-self: center;
@@ -134,15 +138,20 @@ $picturegrid_gap: 4px;
   }
 }
 .TB-pricing {
+  margin-top: -5px;
   margin-left: 5px;
 }
 .TB-location {
+  font-family: "Unna";
+
   padding: 2px;
   font-size: 18px;
   font-weight: 400;
   color: $WT_gray1;
 }
 .TB-owner {
+  font-family: "Unna";
+
   padding: 2px;
   font-size: 18px;
   color: $WT_gray1;
@@ -190,6 +199,9 @@ $picturegrid_gap: 4px;
 // }
 
 .TBTitleWrapper {
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: 1.1rem;
   color: $primary;
   margin-bottom: -0.5rem;
   margin-left: 6px;

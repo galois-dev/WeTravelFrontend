@@ -27,6 +27,11 @@ export default {
       type: String,
       required: true,
     },
+    is_puppet: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -58,7 +63,9 @@ export default {
     },
   },
   mounted() {
-    this.update_self();
+    if (!this.$props.is_puppet) {
+      this.update_self();
+    }
   },
 };
 </script>
