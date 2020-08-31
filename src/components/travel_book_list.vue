@@ -81,17 +81,13 @@ export default {
 <style lang="scss" scoped>
 @import "../variables";
 $width: 500px;
-
-@include mobile {
-  $width: 200px;
-}
 $height: 500px;
 $picturegrid_gap: 4px;
 
 .TBList-root {
   @include phone {
     min-width: 0px;
-    max-width: 95%;
+    max-width: $width;
   }
   min-width: $width;
 }
@@ -103,7 +99,7 @@ $picturegrid_gap: 4px;
     width: 100%;
   }
   @include phone {
-    max-width: 95%;
+    max-width: 90%;
   }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
@@ -132,7 +128,7 @@ $picturegrid_gap: 4px;
     grid-row-gap: 1rem;
     height: $height * 1.2;
     width: 100vw;
-    max-width: 100vw;
+    max-width: $width;
     justify-self: start;
     align-self: start;
   }

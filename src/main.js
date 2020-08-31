@@ -20,7 +20,7 @@ axios.defaults.withCredentials = false;
 
 axios.interceptors.response.use(null, async (error) => {
   // if (error.config && error.response && error.response.status === 401) {
-  if (error.config && error) { // TODO: implement error handling that reflects backend.
+  if (error.config && error.response && error.response.status === 401) {
     await store.dispatch("refreshLogin").then(async () => {
       error.config["headers"] = { "Authorization": "Bearer " + localStorage.getItem("token") }
       return await axios.request(error.config);

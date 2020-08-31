@@ -586,7 +586,7 @@ export default {
       align-self: center;
     }
     justify-items: center;
-    width: 100vw;
+    width: auto;
   }
   grid-area: picture;
   display: grid;

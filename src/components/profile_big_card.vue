@@ -2,11 +2,15 @@
   <div class="profile-card-wrapper">
     <div class="shadow-bar"></div>
     <div class="profile-pimage-container">
-      <div class="picture-wrapper" :style="profile_picture_style"></div>
+      <div
+        class="picture-wrapper"
+        :style="profile_picture_style"
+        @click="gotoProfile(pk)"
+      ></div>
     </div>
     <div class="profile-infobar-wrapper">
       <div class="profile-descriptions">
-        <div class="profile-name">{{ name }}</div>
+        <div class="profile-name" @click="gotoProfile(pk)">{{ name }}</div>
         <div class="profile-ambassador-or-travel"></div>
         <div class="profile-age">Age: {{ calcAge(birthday) }}</div>
         <div class="profile-country">Nationality: {{ country }}</div>
@@ -17,7 +21,14 @@
           </div>
           <div class="profile-follow_button">
             <b-button
-              v-if="pk !== $store.state.UserSettings.pk"
+              v-if="nullableIsFollowing !== null"
+              type="is-primary is-light"
+              size="is-small"
+              @click="handleFollowSignal(pk, nullableIsFollowing)"
+              >{{ nullableIsFollowing ? "unfollow" : "follow" }}</b-button
+            >
+            <b-button
+              v-else-if="pk !== $store.state.UserSettings.pk"
               type="is-primary is-light"
               size="is-small"
               @click="handleFollowSignal(pk, is_followed)"
@@ -63,11 +74,42 @@ export default {
     tags: { type: Array, required: true },
     last_travel: { type: String, required: false },
   },
+  data() {
+    return {
+      nullableIsFollowing: null,
+    };
+  },
   methods: {
     calcAge(bday) {
       if (bday) return _calculateAge(bday);
     },
-    handleFollowSignal(pk, is_following) {},
+    gotoProfile(pk) {
+      console.log(pk);
+      this.$router.push({
+        name: "profile",
+        params: { pk },
+      });
+    },
+    async handleFollowSignal(pk, is_following) {
+      const res = is_following
+        ? await userService.unfollowUser(pk).catch((e) => {
+            this.$buefy.toast.open({
+              type: "is-danger",
+              message: e,
+            });
+          })
+        : await userService.followUser(pk).catch((e) => {
+            this.$buefy.toast.open({
+              type: "is-danger",
+              message: e,
+            });
+          });
+      if (res.data.Success === "Now following") {
+        this.nullableIsFollowing = true;
+      } else if (res.data.Success === "Unfollowed") {
+        this.nullableIsFollowing = false;
+      }
+    },
   },
   computed: {
     profile_picture_style: {
@@ -101,6 +143,7 @@ $image_scaling: 3;
   }
   width: 90%;
   right: 0;
+  z-index: 0;
   border-radius: $border-radius-xs;
 }
 
@@ -132,11 +175,13 @@ $image_scaling: 3;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   height: 148px;
+  z-index: 1;
 }
 .profile-name {
   margin-left: -0.2em;
   color: $WT_grayd;
   font-size: 1.2em;
+  max-height: 40px;
 }
 .profile-age {
   font-size: 0.75em;
