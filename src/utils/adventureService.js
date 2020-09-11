@@ -1,7 +1,9 @@
 import store from "../store/index"
 import axios from "axios"
 import getAuthHeader from "./api";
-
+/**
+ * Travels views
+ */
 export async function getAdventuresByMode(mode) {
   if (!["planned", "dreams", "saved", "memories"].includes(mode)) {
     return console.error(
@@ -58,3 +60,54 @@ export async function getTravelsByUser(pk) {
 }
 
 export async function uploadImagesToAdevnture(pk, files) { }
+
+/**
+ * Inspiration views
+ */
+export async function getTrips(filters, page = 0) {
+  const results = await axios.get(
+    `/inspiration/trips/`, {
+    headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+    data: {
+      filters,
+      page
+    },
+  })
+  return results
+}
+
+export async function getProfiles(filters, page = 0) {
+  const results = await axios.get(
+    `/inspiration/profiles/`, {
+    headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+    data: {
+      filters,
+      page
+    },
+  })
+  return results
+}
+
+export async function getRestaurants(filters, page = 0) {
+  const results = await axios.get(
+    `/inspiration/restaurannts/`, {
+    headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+    data: {
+      filters,
+      page
+    },
+  })
+  return results
+}
+
+export async function getActivities(filters, page = 0) {
+  const results = await axios.get(
+    `/inspiration/activities/`, {
+    headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
+    data: {
+      filters,
+      page
+    },
+  })
+  return results
+}

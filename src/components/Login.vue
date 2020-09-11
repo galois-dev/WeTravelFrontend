@@ -55,8 +55,7 @@
           <b-button
             style="height: 3.5rem; margin-top: 3rem;"
             expanded
-            rounded
-            type="is-primary"
+            type="is-primary is-light"
             :loading="loading ? true : false"
             @click="_login"
             >Login</b-button

@@ -2,10 +2,7 @@
   <div class="TBList-root">
     <div class="TBList-content" v-if="!loading">
       <template v-for="travel in loaded_travel_books">
-        <div
-          :key="travel.pk"
-          class="TB-element animate__animated animate__zoomInUp"
-        >
+        <div :key="travel.pk" class="TB-element">
           <b-carousel class="TB-images" :autoplay="false">
             <b-carousel-item v-for="(image, i) in travel.images" :key="i">
               <img :src="image.url" />
@@ -103,13 +100,14 @@ $picturegrid_gap: 4px;
   }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
+  grid-gap: 0.5em;
 }
 .TB-element {
   justify-self: center;
   align-self: center;
-  -webkit-box-shadow: 2px 2px 53px -22px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 2px 53px -22px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 2px 53px -22px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.0588235) 0px 3px 4px 0px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.0588235) 0px 3px 4px 0px;
+  box-shadow: rgba(0, 0, 0, 0.0588235) 0px 3px 4px 0px;
   border-radius: $border-radius-s;
   margin: $picturegrid_gap;
   display: grid;

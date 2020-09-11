@@ -104,7 +104,7 @@
     </div>
     <div class="TBRHS">
       <div class="image-grid">
-        <div class="UploadSquare" v-for="(image, i) in images" :key="i">
+        <div class="UploadSquare" v-for="(image, i) in images_mutable" :key="i">
           <img height="150" width="150" :src="image.url" />
           <b-button
             type="is-danger"
@@ -164,6 +164,7 @@ export default {
       pricing_selected: -1,
       tags_selected: [],
       dropFiles: [],
+      images_mutable: Array,
     };
   },
   mounted() {
@@ -174,6 +175,7 @@ export default {
     this.pricing_selected = this.$props.pricing;
     this.description_selected = this.$props.description;
     this.tags_selected = this.$props.tags;
+    this.images_mutable = this.$props.images;
 
     this.loading = false;
   },
@@ -185,7 +187,14 @@ export default {
     handlePricingSelect(i) {
       this.pricing_selected = i;
     },
-    handleRemoveImage(pk) {},
+    handleRemoveImage(pk) {
+      // Filter item from list. TODO: Add service call!
+      let filtered = this.images_mutable;
+      filtered = filtered.filter(function(value, index, arr) {
+        return filtered[index].pk !== pk;
+      });
+      this.images_mutable = filtered;
+    },
     handleSaveChanges() {},
   },
 };
@@ -276,6 +285,11 @@ $image_size: 150px;
     position: absolute;
     margin: auto;
   }
+}
+
+.Pricing {
+  margin-top: 0.3em;
+  margin-bottom: 0.6em;
 }
 
 .imageSquare {
