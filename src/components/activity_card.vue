@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="activity_card_pictures">
-      <b-carousel :indicator-inside="false" :autplay="false">
+      <b-carousel :indicator-inside="false" :autoplay="false">
         <b-carousel-item v-for="(item, i) in pictures" :key="i">
           <span class="image">
             <img :src="item.url" />
@@ -28,8 +28,8 @@
           <div class="activity_card_rating">
             <pricing_range :rating="pricing" :size="'medium'" />
           </div>
-          <div class="activity_card_likes">
-            <span class="activity_likes">{{ likes }}</span
+          <div class="activity_card_likes" v-if="likes">
+            <span class="activity_likes">{{ likes ? likes : "-1?" }}</span
             ><span class="activity_liked_this"> People Liked This</span>
           </div>
         </span>
@@ -56,7 +56,7 @@ export default {
   props: {
     name: { type: String, required: true },
     description: { type: String, required: true },
-    likes: { type: String, required: true },
+    likes: { type: String, required: false },
     pricing: { type: Number, required: true },
     website: { type: String, required: true },
     address: { type: String, required: true },

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as userService from "../utils/userService";
+import * as saveboardService from "../utils/saveboardService"
 import router from "../router/index"
 import createPersistedState from "vuex-persistedstate";
 import Axios from "../utils/api"
@@ -28,12 +29,15 @@ export default new Vuex.Store({
       country: "",
       language: "",
       gender: "",
-      brithyear: -1,
+      birthday: "",
       pk: "",
       meta: {
         loaded: false
       }
-    }
+    },
+    Saveboards: {
+      boards: []
+    },
   },
   mutations: {
     async loginSuccess(state, { access, refresh }) {
@@ -81,7 +85,7 @@ export default new Vuex.Store({
         }
       }
     },
-    updateMyUserSettings(state, { birthyear, language, profile_image, email, firstname, lastname, gender, country, pk }) {
+    updateMyUserSettings(state, { birthday, language, profile_image, email, firstname, lastname, gender, country, pk }) {
       state.UserSettings.profile_image = profile_image
       state.UserSettings.firstname = firstname
       state.UserSettings.lastname = lastname
@@ -89,9 +93,12 @@ export default new Vuex.Store({
       state.UserSettings.language = language
       state.UserSettings.country = country
       state.UserSettings.gender = gender
-      state.UserSettings.birthyear = birthyear
+      state.UserSettings.birthday = birthday
       state.UserSettings.pk = pk
       state.UserSettings.meta.loaded = true
+    },
+    push_all_saveboards(state, { boards }) {
+      state.Saveboards.boards = boards;
     }
   },
   actions: {
@@ -107,7 +114,7 @@ export default new Vuex.Store({
     },
     async pushUserSettings({ dispatch, commit }, data) {
       const {
-        birthyear,
+        birthday,
         calendar_view,
         country,
         email,
@@ -151,6 +158,12 @@ export default new Vuex.Store({
       commit("push_initial_settings")
     },
 
+    async querySaveboards({ commit }) {
+      console.log("querySaveboards()");
+      let boards = await saveboardService.getAllSaveboards()
+      console.log(boards);
+      commit("push_all_saveboards", boards.data)
+    },
   },
   modules: {
   }

@@ -560,6 +560,7 @@ export default {
         });
     },
     _flag(country) {
+      assert(Array(this.Countries.values()).includes(country));
       return flag(country);
     },
   },

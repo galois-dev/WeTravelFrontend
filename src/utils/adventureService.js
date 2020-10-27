@@ -77,7 +77,7 @@ export async function getTrips(filters, page = 0) {
 }
 
 export async function getProfiles(filters, page = 0) {
-  const results = await axios.get(
+  let results = await axios.get(
     `/inspiration/profiles/`, {
     headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
     data: {
@@ -85,6 +85,19 @@ export async function getProfiles(filters, page = 0) {
       page
     },
   })
+  if (page > 0) {
+    for (let i = 0; i < page; i++) {
+      if (i + 1 < page) {
+        return await axios.get(
+          results.data.next
+        )
+      } else {
+        results = await axios.get(
+          results.data.next
+        )
+      }
+    }
+  }
   return results
 }
 

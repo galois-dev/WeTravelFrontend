@@ -1,6 +1,6 @@
 <template>
-  <div id="app" :class="hovered_nav ? 'NAVhovered' : 'NAVnothovered'">
-    <div class="main-view">
+  <div id="app" ref="app" :class="hovered_nav ? 'NAVhovered' : 'NAVnothovered'">
+    <div class="main-view" v-on:scroll="handleScroll">
       <transition
         name="view"
         appear
@@ -18,6 +18,8 @@
 <script>
 import Navigation from "./components/Navigation.vue";
 import Home from "./views/Home.vue";
+import store from "./store";
+
 export default {
   name: "app",
   components: { Navigation },
@@ -25,9 +27,14 @@ export default {
     handleShowChanged: function(e) {
       this.hovered_nav = e;
     },
+    handleScroll(e) {},
   },
   created() {
-    this.$store.dispatch("init_settings");
+    console.log("web page just loaded");
+  },
+  mounted() {
+    // this.$store.dispatch("init_settings");
+    this.$store.dispatch("querySaveboards");
   },
   computed: {
     show_nav: function() {

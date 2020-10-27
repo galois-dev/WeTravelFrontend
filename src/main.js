@@ -36,3 +36,5 @@ new Vue({
   defaultIconPack: "mdi",
   render: h => h(App),
 }).$mount('#app')
+
+store.dispatch("querySaveboards")
